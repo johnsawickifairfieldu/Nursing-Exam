@@ -1,0 +1,20 @@
+USE nursing;
+
+DROP FUNCTION IF EXISTS fn_GetIfUserExists;
+
+DELIMITER $
+
+CREATE FUNCTION fn_GetIfUserExists(_email VARCHAR(250))
+RETURNS BIT
+BEGIN
+
+	DECLARE vCount BIGINT;
+
+	SELECT COUNT(*) INTO vCount FROM users WHERE email = _email;
+
+	RETURN CASE WHEN vCount > 0 THEN 1 ELSE 0 END;
+
+END$
+
+DELIMITER ;
+ 
