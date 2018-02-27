@@ -132,7 +132,7 @@ class UserController {
 		//require('config.php');
 			try{
 				
-				$sql = "select school_name from schools";
+				$sql = "CALL sp_GetSchools(@returnval)";
 				$stmt = $this->conn->prepare($sql);
 				$stmt->execute();
 
@@ -198,37 +198,37 @@ class UserController {
 				if ( ($question1 == $question_1 && $answer1 == $answer_1 && $question2 == $question_2 &&  $answer2 == $answer_2)
 					|| ($question2 == $question_1 && $answer2 == $answer_1 && $question1 == $question_2 &&  $answer1 == $answer_2) ){
 					$reset = true;
-				}
 			}
-			catch (PDOException $e) {
-				echo 'Exception: ' . $e->getMessage();
-			}
-			
-			return $reset;
+		}
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
 		}
 		
+		return $reset;
+	}
+	
 	//update new password
-		function resetPassword($email , $password){
-			$results = array();
+	function resetPassword($email , $password){
+		$results = array();
 		//require('config.php');
-			try{
-				
-				$sql = "UPDATE users SET password_hashed = :password WHERE email= :email ";
-				$stmt = $this->conn->prepare($sql);
-				$stmt->bindValue(':password', $password, PDO::PARAM_STR);	
-				$stmt->bindValue(':email', $email, PDO::PARAM_STR);				
-				$stmt->execute();
-				$count = $stmt->rowCount();
-				$stmt->closeCursor();
-				
-			// Close connections
-				$stmt = null;
-				$connection = null;
-			}
-			catch (PDOException $e) {
-				echo 'Exception: ' . $e->getMessage();
-			}
+		try{
 			
-			return $count;
+			$sql = "UPDATE users SET password_hashed = :password WHERE email= :email ";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->bindValue(':password', $password, PDO::PARAM_STR);	
+			$stmt->bindValue(':email', $email, PDO::PARAM_STR);				
+			$stmt->execute();
+			$count = $stmt->rowCount();
+			$stmt->closeCursor();
+			
+			// Close connections
+			$stmt = null;
+			$connection = null;
 		}
-	}	
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
+		}
+		
+		return $count;
+	}
+}	

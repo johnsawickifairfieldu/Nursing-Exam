@@ -2,10 +2,10 @@
 class DB {
 
   
-   function get_connection() {
+ function get_connection() {
     try {
-    $db = new PDO("mysql:host=localhost;dbname=nursing", 'bindu', 'password');      
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+        $db = new PDO("mysql:host=localhost;dbname=nursing", 'bindu', 'password');      
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     }
     catch(PDOException $ex) {
         echo 'An Error occured! '.$ex->getMessage(); //user friendly message    
@@ -14,6 +14,6 @@ class DB {
     }
 
     return $db;
-   }
+}
 }
 ?>

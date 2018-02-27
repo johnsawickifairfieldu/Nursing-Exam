@@ -31,28 +31,28 @@ if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['passwor
 	$question2 = $_POST['ques2'];
 	$answer2 = $_POST['ans2'];
 
-if($question1 == $question2){
-	$fmsg = "Choose different security questions";
-	$messageClass = "alert alert-danger";
-}else{
-
-//check if user exists
-	$result  = $uc->ifUserExists( $email );			
-
-	if($result){
-		$existing = true;
+	if($question1 == $question2){
+		$fmsg = "Choose different security questions";
+		$messageClass = "alert alert-danger";
 	}else{
-		$password_hashed = password_hash($password, PASSWORD_DEFAULT);
-	  //insert user details
-		$result  = $uc->insertUser($guid,$email,$password_hashed,$firstname,$lastname,$school,$gradyear,$question1,$answer1,$question2,$answer2);
 
-		$val = $result['_return_value'];
-		if( $val == 0)
-			$success = true;
+        //check if user exists
+		$result  = $uc->ifUserExists( $email );			
 
-	}
+		if($result){
+			$existing = true;
+		}else{
+			$password_hashed = password_hash($password, PASSWORD_DEFAULT);
+	        //insert user details
+			$result  = $uc->insertUser($guid,$email,$password_hashed,$firstname,$lastname,$school,$gradyear,$question1,$answer1,$question2,$answer2);
 
-} 
+			$val = $result['_return_value'];
+			if( $val == 0)
+				$success = true;
+
+		}
+
+	} 
 }
 else {
 	$posted = false;
@@ -65,7 +65,7 @@ if($existing)	{
 }
 else if($success ){
 	$msg = "Account created successfully";
-    $url = "index.php?msg=$msg";
+	$url = "index.php?msg=$msg";
 	header("Location: ".$url);
 }
 ?>
@@ -178,7 +178,7 @@ else if($success ){
 
 
 				<?php
-	//load schools from database
+	            //load schools from database
 				$result = $uc->getSchools();
 
 				foreach($result as $row){
@@ -235,7 +235,7 @@ else if($success ){
 			<select name="ques1" id="securityQuestion1" class="form-control" required>
 				<option value="" disabled selected>Select..</option>
 				<?php
-	//load security questions from database
+	            //load security questions from database
 				$result = $uc->getSecurityQuestions();
 
 				foreach($result as $row){
@@ -254,7 +254,7 @@ else if($success ){
 			<select name="ques2" id="securityQuestion2" class="form-control" required>
 				<option value="" disabled selected>Select..</option>
 				<?php
-	//load security questions from database
+	            //load security questions from database
 				$result = $uc->getSecurityQuestions();
 
 				foreach($result as $row){
@@ -293,10 +293,7 @@ else if($success ){
     
     return ok;
 }
-// optional if above javascript isnt working
- // if ($("#pass1").val() != $("#pass2").val()) {
- //          alert("Passwords do not match.");
- //      }
+
 
 </script>
 </body>
