@@ -19,6 +19,18 @@ CREATE TABLE IF NOT EXISTS users (
     created DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS security_questions (
+	secret_question VARCHAR(500) NOT NULL PRIMARY KEY
+);
+
+INSERT IGNORE INTO security_questions (secret_question) VALUES
+('What was the name of your elementary / primary school?'),
+('In what city or town does your nearest sibling live?'),
+('What is your pet’s name?'),
+('In what year was your father born?'),
+('What was the make and model of your first car?');
+
+
 CREATE TABLE IF NOT EXISTS schools (
 	school_name VARCHAR(200) NOT NULL PRIMARY KEY
 );
