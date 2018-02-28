@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS nursing;
+CREATE DATABASE IF NOT EXISTS db_team2;
 
-USE nursing;
+USE db_team2;
 
 CREATE TABLE IF NOT EXISTS users (
     guid VARCHAR(36) NOT NULL PRIMARY KEY,
@@ -43,7 +43,7 @@ INSERT IGNORE INTO schools (school_name) VALUES
 ('Branford Hall Career Institute-Branford Campus'),
 ('Branford Hall Career Institute-Southington Campus'),
 ('Branford Hall Career Institute-Windsor Campus'),
-('Bridgeport Hospital School of Nursing'),
+('Bridgeport Hospital School of db_team2'),
 ('Bristol Technical Education Center'),
 ('Bullard-Havens Technical High School'),
 ('Capital Community College'),
