@@ -1,9 +1,9 @@
 USE db_team2;
 
 INSERT IGNORE INTO trainings (training_id, training_description, material, full_path_to_material) VALUES
-(1,'Module 1',NULL,'This is URL to embed module 1 content.'),
-(2,'Module 2',NULL,'This is URL to embed module 2 content.'),
-(3,'Module 3',NULL,'This is URL to embed module 3 content.');
+(1,'Module 1',NULL,'https://www.youtube.com/embed/kY5P9sZqFas?rel=0'),
+(2,'Module 2',NULL,'https://www.youtube.com/embed/ArsbbtkF0ps?rel=0'),
+(3,'Module 3',NULL,'https://www.youtube.com/embed/EuW4EhdPv0o?rel=0');
 
 INSERT IGNORE INTO exams (exam_id, exam_description, training_id, is_active) VALUES
 (1,'Exam 1',1,0), # This exam isn't active
@@ -49,3 +49,21 @@ INSERT IGNORE INTO answers (answer_id, answer_text, question_id, is_correct_answ
 (25,'d',7,0), # This question has one correct answer
 (26,'a',8,1), # This question has one correct answer
 (27,'b',8,0); # This question has one correct answer
+
+#Example usage below
+
+#parameter 1 is training_id, returns full_path_to_material (which is just a URL to an embedded youtube video for now)
+call sp_GetTrainingModule(3, @return_val);
+
+#parameter 1 is training_id, returns question_id,question_text,exam_id,exam_description,answer_id,answer_text,is_correct_answer ordered by question_id, answer_id
+call sp_GetAllTrainingModuleQuestionsAndAnswers(3, @return_val);
+
+#parameter 1 is training_id, parameter 2 is the previous_question_id, returns question_id,question_text,exam_id,exam_description,answer_id,answer_text,is_correct_answer ordered by answer_id
+#Get the first question for the training module by passing in NULL or 0 into parameter 2
+call sp_GetTrainingModuleNextQuestionAndAnswer(3,NULL,@return_val);
+
+#Get the next question after question_id 5 for the training module
+call sp_GetTrainingModuleNextQuestionAndAnswer(3,5,@return_val);
+
+#Get the next question after question_id 7 for the training module, there isn't one so an empty result set is returned
+call sp_GetTrainingModuleNextQuestionAndAnswer(3,7,@return_val);

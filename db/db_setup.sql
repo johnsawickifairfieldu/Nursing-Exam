@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS trainings (
     training_id INT NOT NULL PRIMARY KEY,
     training_description VARCHAR(250) NOT NULL,
     material LONGBLOB NULL,
-    full_path_to_material VARCHAR(250) NOT NULL
+    full_path_to_material VARCHAR(5000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS exams (
