@@ -4,7 +4,7 @@ class DB {
   
  function get_connection() {
     try {
-        $db = new PDO("mysql:host=localhost;dbname=nursing", 'bindu', 'password');      
+        $db = new PDO("mysql:host=localhost;dbname=db_team2", 'bindu', 'password');      
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     }
     catch(PDOException $ex) {
