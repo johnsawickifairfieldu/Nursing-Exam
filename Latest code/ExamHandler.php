@@ -5,20 +5,28 @@ require_once("UserController.php");
 $uc = new UserController();
 
 
-if (isset($_POST['submit'])){
+if (isset($_POST['submit']) && isset($_POST['question'])  && isset($_POST['radio']) ){
 
+$questions = $_POST['question'];
   $answers = $_POST['radio'];
-  print_r($answers);
-  foreach ($answers as $answer) {
-    var_dump($answer);
-  }
-  $questions = $_POST['question'];
-  print_r($questions);
-  foreach ($questions as $question) {
-    var_dump($question);
 
-  }
+echo "Exam Over !";
+
+
+  // for($i = 0 , $k = 0 ; $i<count($questions) , $k < count($answers); $i++, $k++ ){
+  //   $uc->validateExam( $questions[$i] , $answers[$k] );
+  // }
+  // foreach ($questions as $question) {
+  //  $question_val = $question;
+  // }
+  // foreach ($answers as $answer) {
+  //   $answer_val = $answer;
+    
+  // }
+ 
+  
 }
+
 
 
 
@@ -33,7 +41,7 @@ if (isset($_POST['submit'])){
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-  <h2> Nursing Exam </h2>
+ 
   <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
     <?php if(isset($msg)){ ?><div role="alert"> <?php echo $msg; ?> </div><?php } ?> 
     <?php
@@ -58,14 +66,16 @@ if (isset($_POST['submit'])){
       foreach ($quesAns as $val) {
         $question_text = $val['question_text'];
         $answer_text = $val['answer_text'];
+        $question_id_val = $val['question_id'];
+        $answer_id_val = $val['answer_id'];
+        array_push($question_answer_choices, $answer_id_val);
         array_push($question_answer_choices, $answer_text);
         
       }
       $j++;
-
       ?>
       <br/>
-      <input type="hidden" name="question[<?php echo $j; ?>]" value="<?php echo $question_text; ?>" />
+      <input type="hidden" name="question[<?php echo $j; ?>]" value="<?php echo $question_id_val; ?>" />
       <p> <?php echo " $question_text"; ?></p>
       <?php 
 
@@ -73,7 +83,7 @@ if (isset($_POST['submit'])){
        
         ?>
 
-        <input type="radio" name="radio[<?php echo $j; ?>]" value="<?php echo $question_answer_choices[$i]; ?>"><?php echo $question_answer_choices[$i]; ?><br/>
+        <input type="radio" name="radio[<?php echo $j; ?>]" value="<?php echo $question_answer_choices[$i]; ?>" required><?php echo $question_answer_choices[++$i]; ?><br/>
         <?php
       }
     }
