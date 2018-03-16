@@ -1,10 +1,10 @@
 USE db_team2;
 
-DROP PROCEDURE IF EXISTS `sp_GetSchools`;
+DROP PROCEDURE IF EXISTS `sp_GetSecurityQuestions`;
 
 DELIMITER $
 
-CREATE PROCEDURE `sp_GetSchools`(
+CREATE PROCEDURE `sp_GetSecurityQuestions`(
     OUT _return_value 	INT
 )
 BEGIN
@@ -17,7 +17,7 @@ BEGIN
         SET _return_value = MYSQL_ERRNO;	-- cleaner way to handle errors
 	END;
     
-	SELECT school_name FROM schools;
+	SELECT secret_question FROM security_questions;
     
     SET _return_value = 0;
 END$

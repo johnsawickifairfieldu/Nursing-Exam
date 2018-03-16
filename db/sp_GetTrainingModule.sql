@@ -1,10 +1,11 @@
 USE db_team2;
 
-DROP PROCEDURE IF EXISTS `sp_GetSchools`;
+DROP PROCEDURE IF EXISTS `sp_GetTrainingModule`;
 
 DELIMITER $
 
-CREATE PROCEDURE `sp_GetSchools`(
+CREATE PROCEDURE `sp_GetTrainingModule`(
+	IN	_training_id 	INT,
     OUT _return_value 	INT
 )
 BEGIN
@@ -17,7 +18,10 @@ BEGIN
         SET _return_value = MYSQL_ERRNO;	-- cleaner way to handle errors
 	END;
     
-	SELECT school_name FROM schools;
+	SELECT 
+		`trainings`.`full_path_to_material`
+	FROM `trainings`
+    WHERE `trainings`.`training_id` =  _training_id;
     
     SET _return_value = 0;
 END$

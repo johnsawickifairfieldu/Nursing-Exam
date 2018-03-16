@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS nursing;
+CREATE DATABASE IF NOT EXISTS db_team2;
 
-USE nursing;
+USE db_team2;
 
 CREATE TABLE IF NOT EXISTS users (
     guid VARCHAR(36) NOT NULL PRIMARY KEY,
@@ -43,7 +43,7 @@ INSERT IGNORE INTO schools (school_name) VALUES
 ('Branford Hall Career Institute-Branford Campus'),
 ('Branford Hall Career Institute-Southington Campus'),
 ('Branford Hall Career Institute-Windsor Campus'),
-('Bridgeport Hospital School of Nursing'),
+('Bridgeport Hospital School of db_team2'),
 ('Bristol Technical Education Center'),
 ('Bullard-Havens Technical High School'),
 ('Capital Community College'),
@@ -112,13 +112,14 @@ CREATE TABLE IF NOT EXISTS trainings (
     training_id INT NOT NULL PRIMARY KEY,
     training_description VARCHAR(250) NOT NULL,
     material LONGBLOB NULL,
-    full_path_to_material VARCHAR(250) NOT NULL
+    full_path_to_material VARCHAR(5000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS exams (
 	exam_id INT NOT NULL PRIMARY KEY,
     exam_description VARCHAR(250) NOT NULL,
     training_id INT NOT NULL,
+    is_active BIT NOT NULL DEFAULT 1,
     FOREIGN KEY (training_id) REFERENCES trainings(training_id)
 );
 
@@ -159,12 +160,3 @@ CREATE TABLE IF NOT EXISTS results_detailed (
 	FOREIGN KEY (result_id) REFERENCES results_summary(result_id),
 	FOREIGN KEY (answer_id) REFERENCES answers(answer_id)
 );
-
-#Example training with exam with question and answers
-insert ignore into trainings values(1,'USA States',null,'');
-insert ignore into exams values(1,'USA States',1);
-insert ignore into questions values(1,'Which is the largest state by area in USA?',1);
-insert ignore into answers values
-(1,'Alaska',1,1),
-(2,'Texas',1,0),
-(3,'California',1,0);

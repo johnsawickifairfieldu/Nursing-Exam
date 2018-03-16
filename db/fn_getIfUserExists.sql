@@ -1,4 +1,4 @@
-USE nursing;
+USE db_team2;
 
 DROP FUNCTION IF EXISTS fn_GetIfUserExists;
 

@@ -1,4 +1,4 @@
-USE nursing;
+USE db_team2;
 
 DROP PROCEDURE IF EXISTS `sp_GetUser`;
 
