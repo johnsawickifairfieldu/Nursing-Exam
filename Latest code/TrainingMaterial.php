@@ -12,18 +12,18 @@
     <p>
 
      <?php  
-     require_once("UserController.php");
-     $uc = new UserController();
+     require_once("TrainingController.php");
+     $tc = new TrainingController();
      if(!empty($_GET['training_id'])){
        $trainingModule_id = $_GET['training_id'];
      }
      ?>
      <h2> <?php echo " Training Module: $trainingModule_id"; ?></h2><br/>
      <?php
-     $result  = $uc->getTrainingModuleLinks( $trainingModule_id );	
+     $result  = $tc->getTrainingModuleLinks( $trainingModule_id );	
      
      foreach($result as $row){
-      echo "<a href='".$row['full_path_to_material']."'>".$row['full_path_to_material']."</a>"; 
+      echo '<iframe width="640" height="360" src="'.$row['full_path_to_material'].'" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>'; 
     }
 
     ?>

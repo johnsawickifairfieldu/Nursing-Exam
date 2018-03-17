@@ -1,8 +1,8 @@
 
 <?php
 
-require_once("UserController.php");
-$uc = new UserController();
+require_once("ExamController.php");
+$ec = new ExamController();
 
 
 if (isset($_POST['submit']) && isset($_POST['question'])  && isset($_POST['radio']) ){
@@ -14,7 +14,7 @@ echo "Exam Over !";
 
 
   // for($i = 0 , $k = 0 ; $i<count($questions) , $k < count($answers); $i++, $k++ ){
-  //   $uc->validateExam( $questions[$i] , $answers[$k] );
+  //   $ec->validateExam( $questions[$i] , $answers[$k] );
   // }
   // foreach ($questions as $question) {
   //  $question_val = $question;
@@ -50,18 +50,18 @@ echo "Exam Over !";
      $training_id = $_POST['training_id'];
    }
 
-   $result = $uc->getExamId($training_id);
+   $result = $ec->getExamId($training_id);
    foreach($result as $row){
      $exam_id = $row['exam_id'];
-     $uc->setExamToActiveState($exam_id,$training_id);
-     $uc->resetOtherExamsActiveState($exam_id);
+     $ec->setExamToActiveState($exam_id,$training_id);
+     $ec->resetOtherExamsActiveState($exam_id);
      $question_id = array();
-     $question_id = $uc->getQuestionId($exam_id,$training_id);
+     $question_id = $ec->getQuestionId($exam_id,$training_id);
      $quesAns = array();
      
      $j = 0;
      foreach ($question_id as $row) {
-      $quesAns = $uc->getAnswerId($row['question_id']);
+      $quesAns = $ec->getAnswerId($row['question_id']);
       $question_answer_choices = array();
       foreach ($quesAns as $val) {
         $question_text = $val['question_text'];
