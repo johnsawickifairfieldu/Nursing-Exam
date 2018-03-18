@@ -48,7 +48,6 @@ echo "Exam Over !";
     
     if(!empty($_POST['training_id'])){
      $training_id = $_POST['training_id'];
-   }
 
    $result = $ec->getExamId($training_id);
    foreach($result as $row){
@@ -93,6 +92,7 @@ echo "Exam Over !";
 
     <?php 
   }
+}
   ?>
 
   

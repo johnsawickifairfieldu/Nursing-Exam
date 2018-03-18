@@ -134,7 +134,7 @@ class ExamController {
 		
 		try{
 
-			$sql = "select a.answer_text,q.question_text from answers a join questions q where a.question_id = q.question_id and q.question_id = :question_id";
+			$sql = "select a.answer_text,q.question_text, a.answer_id, q.question_id from answers a join questions q where a.question_id = q.question_id and q.question_id = :question_id";
 			$stmt = $this->conn->prepare($sql);
 			$stmt->bindValue(':question_id', $question_id, PDO::PARAM_STR);
 			$stmt->execute();
