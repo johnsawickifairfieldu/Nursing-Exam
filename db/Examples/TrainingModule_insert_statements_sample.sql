@@ -1,7 +1,7 @@
 USE db_team2;
 
-insert ignore into trainings values (1 , 'PHP Basics 1' ,null , 'https://www.youtube.com/embed/7TF00hJI78Y?rel=0');
-insert ignore into trainings values (2 , 'PHP Basics 2' ,null, 'https://www.youtube.com/embed/DG0C3Tntl1M?rel=0');
+insert ignore into trainings values (1 , 'PHP Basics 1' ,null , 'http://my.visme.co/projects/dmvvdg0k-6ep5dm1gwej75dz3');
+insert ignore into trainings values (2 , 'PHP Basics 2' ,null, 'https://my.visme.co/projects/kkzxj9jk-18r276j7gn3756qz');
 insert ignore into trainings values (3 , 'PHP Basics 3' ,null , 'https://www.youtube.com/embed/mpQts3ezPVg?rel=0');
 
 select * from trainings;
