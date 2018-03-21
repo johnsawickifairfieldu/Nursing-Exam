@@ -25,7 +25,7 @@ BEGIN
 		(SELECT MIN(`questions`.`question_id`)
 		FROM `questions`
 		JOIN `exams` ON `exams`.`exam_id` = `questions`.`exam_id`
-		WHERE `exams`.`training_id` =  _training_id AND `exams`.`is_active` = 1);
+		WHERE `exams`.`training_id` =  _training_id);
     ELSE
     	SET next_question_id = _previous_question_id + 1;
     END IF;
@@ -41,7 +41,7 @@ BEGIN
 	FROM `questions`
     JOIN `exams` ON `exams`.`exam_id` = `questions`.`exam_id`
     JOIN `answers` ON `answers`.`question_id` = `questions`.`question_id`
-    WHERE `exams`.`training_id` =  _training_id AND `exams`.`is_active` = 1
+    WHERE `exams`.`training_id` =  _training_id
     AND `questions`.`question_id` = next_question_id
     ORDER BY `answers`.`answer_id`;
     

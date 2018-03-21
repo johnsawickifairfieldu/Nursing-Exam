@@ -36,50 +36,6 @@ class ExamController {
 
 	}
 
-//if an exam is started set it to active state
-	function setExamToActiveState($exam_id,$training_id){
-		
-		try{
-			
-			$sql = "UPDATE exams SET is_active = 1 WHERE exam_id= :exam_id and training_id = :training_id";
-			$stmt = $this->conn->prepare($sql);	
-			$stmt->bindValue(':exam_id', $exam_id, PDO::PARAM_STR);	
-			$stmt->bindValue(':training_id', $training_id, PDO::PARAM_STR);				
-			$stmt->execute();
-			$stmt->closeCursor();
-
-			
-			
-			// Close connections
-			$stmt = null;
-			$connection = null;
-		}
-		catch (PDOException $e) {
-			echo 'Exception: ' . $e->getMessage();
-		}
-		
-		
-	}
-
-        //reset previous exam active state to 0 if any
-	function resetOtherExamsActiveState($exam_id){
-		try{
-			
-			$sql = "UPDATE exams SET is_active = 0 WHERE exam_id <> :exam_id";
-			$stmt = $this->conn->prepare($sql);	
-			$stmt->bindValue(':exam_id', $exam_id, PDO::PARAM_STR);	
-
-			$stmt->execute();
-			$stmt->closeCursor();
-			
-			// Close connections
-			$stmt = null;
-			$connection = null;
-		}
-		catch (PDOException $e) {
-			echo 'Exception: ' . $e->getMessage();
-		}
-	}
 
 // 		function getTrainingModuleQuestionAndAnswers($training_id){
 // $results = array();

@@ -52,8 +52,6 @@ echo "Exam Over !";
    $result = $ec->getExamId($training_id);
    foreach($result as $row){
      $exam_id = $row['exam_id'];
-     $ec->setExamToActiveState($exam_id,$training_id);
-     $ec->resetOtherExamsActiveState($exam_id);
      $question_id = array();
      $question_id = $ec->getQuestionId($exam_id,$training_id);
      $quesAns = array();

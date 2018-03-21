@@ -29,7 +29,7 @@ BEGIN
 	FROM `questions`
     JOIN `exams` ON `exams`.`exam_id` = `questions`.`exam_id`
     JOIN `answers` ON `answers`.`question_id` = `questions`.`question_id`
-    WHERE `exams`.`training_id` =  _training_id AND `exams`.`is_active` = 1
+    WHERE `exams`.`training_id` =  _training_id
     ORDER BY `questions`.`question_id`,`answers`.`answer_id`;
     
     SET _return_value = 0;

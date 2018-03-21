@@ -119,7 +119,6 @@ CREATE TABLE IF NOT EXISTS exams (
 	exam_id INT NOT NULL PRIMARY KEY,
     exam_description VARCHAR(250) NOT NULL,
     training_id INT NOT NULL,
-    is_active BIT NOT NULL DEFAULT 1,
     FOREIGN KEY (training_id) REFERENCES trainings(training_id)
 );
 
@@ -159,4 +158,22 @@ CREATE TABLE IF NOT EXISTS results_detailed (
     ),
 	FOREIGN KEY (result_id) REFERENCES results_summary(result_id),
 	FOREIGN KEY (answer_id) REFERENCES answers(answer_id)
+);
+
+CREATE TABLE IF NOT EXISTS user_trainings_completed (
+	guid VARCHAR(36) NOT NULL,
+    training_id INT NOT NULL,
+    PRIMARY KEY (
+		guid,
+        training_id
+    )
+);
+
+CREATE TABLE IF NOT EXISTS user_exams_completed (
+	guid VARCHAR(36) NOT NULL,
+    exam_id INT NOT NULL,
+    PRIMARY KEY (
+		guid,
+        exam_id
+    )
 );
