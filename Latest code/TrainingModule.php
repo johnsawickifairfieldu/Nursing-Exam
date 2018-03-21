@@ -11,6 +11,14 @@
 <body>
   <h2> Nursing Training </h2>
   <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+    <?php
+            if(!empty($_GET['firstname']) && !empty($_GET['lastname'])){
+              $firstname = $_GET['firstname'];
+               $lastname = $_GET['lastname'];
+            echo " Welcome $firstname $lastname";
+            }
+            ?>
+            <br/>
     <a href="TrainingMaterial.php?training_id=1">Training Module 1 </a>
     <a href="TrainingMaterial.php?training_id=2">Training Module 2 </a>
     <a href="TrainingMaterial.php?training_id=3">Training Module 3 </a>

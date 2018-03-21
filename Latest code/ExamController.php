@@ -107,4 +107,26 @@ class ExamController {
 		return $results;
 
 	}
+
+	function getCorrectAnswers($exam_id){
+		$results = array();
+		
+		try{
+
+		$sql = "select a.question_id,a.answer_id from answers a join questions q where a.question_id = q.question_id and q.exam_id = :exam_id and a.is_correct_answer = 1";
+		$stmt = $this->conn->prepare($sql);
+			$stmt->bindValue(':exam_id', $exam_id, PDO::PARAM_STR);
+			$stmt->execute();
+
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+				array_push($results, $row);
+
+			}
+		}
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
+		}
+
+		return $results;
+	}
 }	

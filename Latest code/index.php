@@ -37,10 +37,12 @@ if (isset($_POST['login']) && isset($_POST) && !empty($_POST)){
 }
 
 if (isset($_SESSION['firstname']) && isset($_SESSION['lastname'])){
+	
+	$firstname = $_SESSION['firstname'];
+	$lastname = $_SESSION['lastname'];
+    $url = "TrainingModule.php?firstname=$firstname&lastname=$lastname";
+	header("Location: ".$url);
 
-	echo "Welcome: " . $_SESSION['firstname'] ." ".$_SESSION['lastname']. "<br>";
-	echo "You are logged into a session.<br>";
-	echo "<a href='logout.php'>Logout</a>"; 
 }else{
 
 	?>

@@ -5,24 +5,44 @@ require_once("ExamController.php");
 $ec = new ExamController();
 
 
-if (isset($_POST['submit']) && isset($_POST['question'])  && isset($_POST['radio']) ){
+if (isset($_POST['submit']) && isset($_POST['question'])  && isset($_POST['radio']) && isset($_POST['exam_id']) ){
 
+$exam_id = $_POST['exam_id'];
 $questions = $_POST['question'];
   $answers = $_POST['radio'];
+  //load correct answers from database
+$result = $ec->getCorrectAnswers($exam_id);
 
-echo "Exam Over !";
+$ques = array();
+$ans = array();
 
+//changing the question,answers array format loaded from database to match that of current exam taken by user
+foreach ($result as $key1 => $value1) {
+  foreach ($value1 as $key => $value) {
+if($key == "question_id"){
+array_push($ques, $value);
+  }else if($key == "answer_id"){
+array_push($ans, $value);
+  }
+}
+}
 
-  // for($i = 0 , $k = 0 ; $i<count($questions) , $k < count($answers); $i++, $k++ ){
-  //   $ec->validateExam( $questions[$i] , $answers[$k] );
-  // }
-  // foreach ($questions as $question) {
-  //  $question_val = $question;
-  // }
-  // foreach ($answers as $answer) {
-  //   $answer_val = $answer;
-    
-  // }
+//question, answers loaded from database
+$dbQuesAns = array_combine( $ques , $ans );
+
+//question, answers from the user
+$userQuesAns = array_combine( $questions , $answers );
+
+//checks if question id's are same
+if(count(array_diff_key($dbQuesAns, $userQuesAns)) == 0){
+$correct = count(array_intersect($dbQuesAns, $userQuesAns));
+$wrong = count(array_diff($dbQuesAns, $userQuesAns));
+}else{
+  echo "questions don't match!";
+}
+
+//display number of correct and wrong answers
+echo "$correct correct and $wrong wrong answers";
  
   
 }
@@ -72,6 +92,7 @@ echo "Exam Over !";
       $j++;
       ?>
       <br/>
+	  <input type="hidden" name="exam_id" value="<?php echo $exam_id; ?>" />
       <input type="hidden" name="question[<?php echo $j; ?>]" value="<?php echo $question_id_val; ?>" />
       <p> <?php echo " $question_text"; ?></p>
       <?php 
