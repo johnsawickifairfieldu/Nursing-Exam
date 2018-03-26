@@ -1,6 +1,9 @@
 
 <?php
 session_start();
+session_unset();
+session_destroy();
+
 function GUID()
 {
 	if (function_exists('com_create_guid') === true)
@@ -18,6 +21,8 @@ $uc = new UserController();
 $existing = false;
 $success = false;
 $posted = true;
+
+
 if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['password'])) {
 	$guid = GUID();
 	$email = $_POST['email'];
@@ -118,7 +123,7 @@ else if($success ){
 
 <body>     
 	<!-- Fixed Navbar Top -->
-	<nav class="navbar navbar-dark bg-danger navbar-fixed-top py-2">
+	<nav class="navbar navbar-dark  navbar-fixed-top py-2" style=" background-color: #3B80DB;">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a href="#" class="navbar-brand">CT Nurse Training Portal</a>

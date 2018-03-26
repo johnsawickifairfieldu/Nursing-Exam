@@ -92,7 +92,7 @@ else{
 
 <body>     
 	<!-- Fixed Navbar Top -->
-	<nav class="navbar navbar-dark bg-danger navbar-fixed-top py-2">
+	<nav class="navbar navbar-dark navbar-fixed-top py-2" style=" background-color: #3B80DB;">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a href="#" class="navbar-brand">CT Nurse Training Portal</a>
