@@ -11,7 +11,7 @@ insert into exams (exam_id, exam_description, training_id) values(2 , 'Exam For 
 insert into exams (exam_id, exam_description, training_id) values(3 , 'Exam For Training Module 3' , 3);
 
 select * from exams;
-select q.question_id from Questions q join exams e where  e.exam_id = q.exam_id and e.training_id = 1 and e.exam_id = 1;
+select q.question_id from questions q join exams e where  e.exam_id = q.exam_id and e.training_id = 1 and e.exam_id = 1;
 
 
 insert into questions values(1 , 'What does PHP stand for?' , 1);
