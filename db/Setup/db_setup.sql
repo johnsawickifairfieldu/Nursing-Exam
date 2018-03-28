@@ -137,43 +137,14 @@ CREATE TABLE IF NOT EXISTS answers (
 	FOREIGN KEY (question_id) REFERENCES questions(question_id)
 );
 
-CREATE TABLE IF NOT EXISTS results_summary (
-    result_id INT NOT NULL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS results (
+    result_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     guid VARCHAR(36) NOT NULL,
-    started DATETIME NOT NULL,
+    ended DATETIME NOT NULL,
     exam_id INT NOT NULL,
-    total_available_correct_answers INT NOT NULL,
-    total_available_correct_answers_seen INT NOT NULL DEFAULT 0,
-    total_available_correct_answers_seen_chosen INT NOT NULL DEFAULT 0,
+    total_available_questions INT NOT NULL DEFAULT 0,
+    total_questions_answered_correctly INT NOT NULL DEFAULT 0,
 	FOREIGN KEY (guid) REFERENCES users(guid),
-	FOREIGN KEY (exam_id) REFERENCES exams(exam_id)
-);
-
-CREATE TABLE IF NOT EXISTS results_detailed (
-    result_id INT NOT NULL,
-    answer_id INT NOT NULL,
-    PRIMARY KEY (
-		result_id,
-        answer_id
-    ),
-	FOREIGN KEY (result_id) REFERENCES results_summary(result_id),
-	FOREIGN KEY (answer_id) REFERENCES answers(answer_id)
-);
-
-CREATE TABLE IF NOT EXISTS user_trainings_completed (
-	guid VARCHAR(36) NOT NULL,
-    training_id INT NOT NULL,
-    PRIMARY KEY (
-		guid,
-        training_id
-    )
-);
-
-CREATE TABLE IF NOT EXISTS user_exams_completed (
-	guid VARCHAR(36) NOT NULL,
-    exam_id INT NOT NULL,
-    PRIMARY KEY (
-		guid,
-        exam_id
-    )
+	FOREIGN KEY (exam_id) REFERENCES exams(exam_id),
+	UNIQUE KEY `results_unique_index` (`guid`, `ended`, `exam_id`)
 );
