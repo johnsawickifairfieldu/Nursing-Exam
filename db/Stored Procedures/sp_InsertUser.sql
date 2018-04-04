@@ -16,6 +16,7 @@ CREATE PROCEDURE `sp_InsertUser`(
     IN _secret_answer_1		VARCHAR(50),
     IN _secret_question_2	VARCHAR(200),
     IN _secret_answer_2		VARCHAR(50),
+    IN _access_level		VARCHAR(50),
     OUT _return_value 	INT
 )
 BEGIN
@@ -42,7 +43,8 @@ BEGIN
             `users`.`secret_question_1`		= _secret_question_1,
             `users`.`secret_answer_1`		= _secret_answer_1,
             `users`.`secret_question_2`		= _secret_question_2,            
-            `users`.`secret_answer_2`		= _secret_answer_2
+            `users`.`secret_answer_2`		= _secret_answer_2,
+            `users`.`access_level`		    = _access_level
 		WHERE
 			`users`.`guid` = _guid;
     ELSE
@@ -57,7 +59,8 @@ BEGIN
             `users`.`secret_question_1`,
             `users`.`secret_answer_1`,
             `users`.`secret_question_2`,            
-            `users`.`secret_answer_2`)
+            `users`.`secret_answer_2`,
+            `users`.`access_level`)
 		VALUES(
 			_guid,
 			_email,
@@ -69,7 +72,8 @@ BEGIN
             _secret_question_1,
             _secret_answer_1,
             _secret_question_2,
-            _secret_answer_2);
+            _secret_answer_2,
+            _access_level);
 	END IF;
     
     SET _return_value = 0;
