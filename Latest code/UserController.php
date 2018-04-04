@@ -61,7 +61,7 @@ class UserController {
 			//require('config.php');
 			
 			// Prepare the SQL statement and execute it
-			$sql = "select fn_GetIfUserExists( :email )";
+			$sql = "call sp_GetIfUserExists(:email,  @_return_value)";
 			$stmt = $this->conn->prepare($sql);
 			$stmt->bindValue(':email', $email, PDO::PARAM_STR);				
 			$stmt->execute();
