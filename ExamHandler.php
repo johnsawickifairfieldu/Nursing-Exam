@@ -208,6 +208,7 @@ echo '</script>';
      $exam_id = $row['exam_id'];
      $question_id = array();
      $question_id = $ec->getQuestionId($exam_id,$training_id);
+//Shuffle questions
 	 shuffle($question_id);
      $quesAns = array();
      
@@ -215,9 +216,10 @@ echo '</script>';
      $quesCount = 0;
      foreach ($question_id as $row) {
       $quesAns = $ec->getAnswerId($row['question_id']);
+//Shuffle Answers
       shuffle($quesAns);
       $question_answer_choices = array();
-	  shuffle($question_answer_choices);
+      shuffle($question_answer_choices);
       foreach ($quesAns as $val) {
         $question_text = $val['question_text'];
         $answer_text = $val['answer_text'];
