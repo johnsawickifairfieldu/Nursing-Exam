@@ -88,14 +88,14 @@ class UserController {
 	}			
 	
 	//insert new user details
-	function insertUser( $guid , $email , $password_hashed , $firstname , $lastname , $school , $gradyear , $question1 , $answer1 , $question2 , $answer2 ){
+	function insertUser( $guid , $email , $password_hashed , $firstname , $lastname , $school , $gradyear , $question1 , $answer1 , $question2 , $answer2 ,$access_level){
 		$results = array();
 		//require('config.php');
 		try{
 			
 			// Prepare the SQL statement and execute it
 			$sql = "CALL sp_InsertUser(:guid , :email , :password_hashed , :firstname , :lastname , :school , :gradyear , :question1 , :answer1 ,
-				:question2 , :answer2 ,  @_return_value)";
+				:question2 , :answer2 , :access_level,  @_return_value)";
 				$stmt = $this->conn->prepare($sql);
 				$stmt->bindValue(':guid', $guid, PDO::PARAM_STR);
 				$stmt->bindValue(':email', $email, PDO::PARAM_STR);
@@ -108,6 +108,7 @@ class UserController {
 				$stmt->bindValue(':answer1', $answer1, PDO::PARAM_STR);
 				$stmt->bindValue(':question2', $question2, PDO::PARAM_STR);
 				$stmt->bindValue(':answer2', $answer2, PDO::PARAM_STR);
+				$stmt->bindValue(':access_level', $access_level, PDO::PARAM_STR);
 				$stmt->execute();		
 				$stmt->closeCursor();
 				
@@ -230,5 +231,41 @@ class UserController {
 		}
 		
 		return $count;
+	}
+
+
+	function checkUser($email){
+
+		try{
+
+		$sql = "select access_level from users where email = :email and is_active = 1";
+		$stmt = $this->conn->prepare($sql);
+			$stmt->bindValue(':email', $email, PDO::PARAM_STR);
+			$stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$accessLevel = $result['access_level'];
+		}
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
+		}
+
+		return $accessLevel;
+	}
+
+	function getEmailId($firstname,$lastname){
+		try{
+		$sql = "select email from users where first_name = :firstname and last_name = :lastname";
+		$stmt = $this->conn->prepare($sql);
+		$stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
+			$stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
+			$stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$email = $result['email'];
+		}
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
+		}
+
+		return $email;
 	}
 }	

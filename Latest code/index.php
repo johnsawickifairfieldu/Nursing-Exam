@@ -1,6 +1,6 @@
 <?php  
 
-ob_start();
+
 session_start();
 
 //require_once('config.php');
@@ -9,7 +9,7 @@ $posted = true;
 $existing = false;
 $uc = new UserController();
 
-if (isset($_POST['login']) && isset($_POST) && !empty($_POST)){
+if (isset($_POST['login']) && !empty($_POST['email']) && !empty($_POST['password'])){
 
 	$email = $_POST['email'];
 	$password =  $_POST['password'];
@@ -31,18 +31,23 @@ if (isset($_POST['login']) && isset($_POST) && !empty($_POST)){
 		$messageClass = "alert alert-danger";
 	}
 
-}else{
-	$posted = false;
-	
 }
 
 if (isset($_SESSION['firstname']) && isset($_SESSION['lastname'])){
+//if(!empty($accessLevel) && !empty($email)){	
+	$firstname = $_SESSION['firstname'];
+	$lastname = $_SESSION['lastname'];
+	$emailId = $uc->getEmailId($firstname,$lastname);
 	
-	//$firstname = $_SESSION['firstname'];
-	//$lastname = $_SESSION['lastname'];
+ $accessLevel = $uc->checkUser($emailId);
+ if($accessLevel == 1){
     $url = "TrainingModule.php";
 	header("Location: ".$url);
-
+}else{
+	$url = "AdminPage.php";
+	header("Location: ".$url);
+}
+//}
 }else{
 
 	?>

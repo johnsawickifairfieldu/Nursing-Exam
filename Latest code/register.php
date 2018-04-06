@@ -49,7 +49,8 @@ if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['passwor
 		}else{
 			$password_hashed = password_hash($password, PASSWORD_DEFAULT);
 	        //insert user details
-			$result  = $uc->insertUser($guid,$email,$password_hashed,$firstname,$lastname,$school,$gradyear,$question1,$answer1,$question2,$answer2);
+	        $access_level = 1;
+			$result  = $uc->insertUser($guid,$email,$password_hashed,$firstname,$lastname,$school,$gradyear,$question1,$answer1,$question2,$answer2,$access_level);
 
 			$val = $result['_return_value'];
 			if( $val == 0)

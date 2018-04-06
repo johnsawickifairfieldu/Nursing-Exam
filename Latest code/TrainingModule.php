@@ -137,7 +137,7 @@
 
             <!-- Page Content Holder -->
             <div id="content">
-<h1>Hello Brad</h1>
+
 <h3>Overview</h3>
 <div class="card-deck ">
   <div class="card col-sm-3">

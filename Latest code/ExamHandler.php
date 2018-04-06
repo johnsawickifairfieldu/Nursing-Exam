@@ -10,6 +10,9 @@ if (isset($_POST['submit']) && isset($_POST['question'])  && isset($_POST['radio
 $exam_id = $_POST['exam_id'];
 $questions = $_POST['question'];
   $answers = $_POST['radio'];
+  $firstname = $_POST['firstname'];
+  $lastname = $_POST['lastname'];
+
   //load correct answers from database
 $result = $ec->getCorrectAnswers($exam_id);
 
@@ -37,14 +40,14 @@ $userQuesAns = array_combine( $questions , $answers );
 if(count(array_diff_key($dbQuesAns, $userQuesAns)) == 0){
 $correct = count(array_intersect($dbQuesAns, $userQuesAns));
 $wrong = count(array_diff($dbQuesAns, $userQuesAns));
-}else{
-  echo "questions don't match!";
+
 }
 
-//display number of correct and wrong answers
-echo '<script language="javascript">';
-echo 'alert("'.$correct.' correct and '.$wrong.' wrong answers")';
-echo '</script>';
+$guid = $ec->getGUID($firstname , $lastname);
+
+$ec->InsertExamResults($guid,$exam_id,($correct + $wrong) , $correct);
+
+$msg = "Exam Completed!";
   
 }
 
@@ -107,14 +110,15 @@ echo '</script>';
             echo " Welcome $firstname $lastname";
             }
             ?>
-
+<input type="hidden" name="firstname" value="<?php echo $firstname; ?>">
+<input type="hidden" name="lastname" value="<?php echo $lastname; ?>">
             
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="#">Profile</a>
           <a class="dropdown-item" href="#">Settings</a>
           
-        </div></form>
+        </div>
       </li>
       <li class="nav-item"><a href="logout.php" class="nav-link userbutton">
           <span class="fa fa-mail-forward"></span> Logout</a></li>
@@ -190,17 +194,19 @@ echo '</script>';
             <!-- Page Content Holder -->
             <div id="content">
 
-               <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+               
     <?php if(isset($msg)){ ?><div role="alert"> <?php echo $msg; ?> </div><?php } ?> 
     <?php
     
     if(!empty($_GET['training_id'])){
        $training_id = $_GET['training_id'];
-     }
-
-    if(!empty($_POST['training_id'])){
+     }elseif(!empty($_POST['training_id'])){
      $training_id = $_POST['training_id'];
    }
+
+ $guid = $ec->getGUID($firstname , $lastname);
+  
+
      if(!empty($training_id)){
 
    $result = $ec->getExamId($training_id);
@@ -208,22 +214,35 @@ echo '</script>';
      $exam_id = $row['exam_id'];
      $question_id = array();
      $question_id = $ec->getQuestionId($exam_id,$training_id);
+     //shuffle questions
+     shuffle($question_id);
      $quesAns = array();
-     
+      $countExceeded = $ec->countAttempts($guid , $exam_id);
      $j = 0;
      $quesCount = 0;
+     if(!$countExceeded){
      foreach ($question_id as $row) {
       $quesAns = $ec->getAnswerId($row['question_id']);
-      $question_answer_choices = array();
+      $answer_choices = array();
+      $answer_id_val_array = array();
       foreach ($quesAns as $val) {
         $question_text = $val['question_text'];
         $answer_text = $val['answer_text'];
         $question_id_val = $val['question_id'];
         $answer_id_val = $val['answer_id'];
-        array_push($question_answer_choices, $answer_id_val);
-        array_push($question_answer_choices, $answer_text);
+        array_push($answer_id_val_array, $answer_id_val);
+        array_push($answer_choices, $answer_text);
         
       }
+ $question_answers = array_combine($answer_id_val_array, $answer_choices);
+//shuffle answers
+ $shuffleKeys = array_keys($question_answers);
+shuffle($shuffleKeys);
+$shuffled_question_answers = array();
+foreach($shuffleKeys as $key) {
+    $shuffled_question_answers[$key] = $question_answers[$key];
+}
+
       $j++;
       $quesCount = $quesCount + 1;
       ?>
@@ -235,22 +254,36 @@ echo '</script>';
       <p> <?php echo " $quesCount. $question_text"; ?></p>
       <?php 
 
-      for ($i = 0; $i < count($question_answer_choices); $i++) {
-       
+ 
+       foreach ($shuffled_question_answers as $key => $value) {
         ?>
 
-        <input type="radio" name="radio[<?php echo $j; ?>]" value="<?php echo $question_answer_choices[$i]; ?>" required><?php echo $question_answer_choices[++$i]; ?><br/>
+        <input type="radio" name="radio[<?php echo $j; ?>]" value="<?php echo $key; ?>" required><?php echo $value; ?><br/>
         <?php
       }
+
+
     }
     ?>
-<br/>
+      <br/>
     <input type="submit" name="submit" value="Submit">  
+      <?php
+  }else{
+    ?>
+<p>You cannot take test more than 3 times.</p>
+    <?php
+  }
+  ?>
+
 
     <?php 
   }
 }
-  ?>
+
+
+?>
+
+
 
   
 </form>

@@ -37,27 +37,7 @@ class ExamController {
 	}
 
 
-// 		function getTrainingModuleQuestionAndAnswers($training_id){
-// $results = array();
 
-// 			try{
-
-// 				$sql = "CALL sp_GetAllTrainingModuleQuestionsAndAnswers(:training_id ,@_return_value)";
-// 				$stmt = $this->conn->prepare($sql);
-// 				$stmt->bindValue(':training_id', $training_id, PDO::PARAM_STR);
-// 				$stmt->execute();
-
-// 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-// 					array_push($results, $row);
-
-// 				}
-// 			}
-// 			catch (PDOException $e) {
-// 				echo 'Exception: ' . $e->getMessage();
-// 			}
-
-// 			return $results;
-// 		}
 
 //load questions 
 	function getQuestionId($exam_id,$training_id){
@@ -128,5 +108,91 @@ class ExamController {
 		}
 
 		return $results;
+	}
+
+	function getGUID($firstname , $lastname){
+
+		try{
+
+		$sql = "select guid from users where first_name = :firstname and last_name = :lastname and is_active = 1";
+		$stmt = $this->conn->prepare($sql);
+			$stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
+			$stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
+			$stmt->execute();
+             $result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$guid = $result['guid'];
+		}
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
+		}
+
+		return $guid;
+	}
+
+
+	function InsertExamResults($guid,$exam_id,$total , $correct){
+
+$results = array();
+		
+		try{
+			
+			// Prepare the SQL statement and execute it
+			$sql = "CALL sp_InsertUserExamResults(:guid , :exam_id , :total , :correct , @_return_value)";
+				$stmt = $this->conn->prepare($sql);
+				$stmt->bindValue(':guid', $guid, PDO::PARAM_STR);
+				$stmt->bindValue(':exam_id', $exam_id, PDO::PARAM_STR);
+				$stmt->bindValue(':total', $total, PDO::PARAM_STR);
+				$stmt->bindValue(':correct', $correct, PDO::PARAM_STR);
+				
+				$stmt->execute();		
+				$stmt->closeCursor();
+				
+				
+				
+				array_push($results, array( "_return_value" => $this->conn->query("select @_return_value")->fetchAll(), "message" => ""));
+				
+			// Close connections
+				$stmt = null;
+				$connection = null;
+				
+			} catch (PDOException $e) {
+				echo 'Exception: ' . $e->getMessage();
+			}
+			
+			return $results;
+	}
+
+	function countAttempts($guid , $exam_id){
+		try{
+            $exceededAttempts = false;
+			// Prepare the SQL statement and execute it
+			$sql = "call sp_GetUserExamsCompleted(:guid,:exam_id,@return_value)";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->bindValue(':guid', $guid, PDO::PARAM_STR);
+			$stmt->bindValue(':exam_id', $exam_id, PDO::PARAM_STR);				
+			$stmt->execute();
+			
+		while ($row = $stmt->fetch())
+				{
+					$count =$row[0];
+					
+				}
+
+			if($count >= 3){
+				$exceededAttempts = true;
+			}
+			
+			$stmt->closeCursor();
+			
+			// Close connections
+			$stmt = null;
+			$connection = null;
+			
+		} catch (PDOException $e) {
+			echo "Exception: ".$e->getMessage();
+			
+		}
+		
+		return $exceededAttempts;
 	}
 }	
