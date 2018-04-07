@@ -45,7 +45,7 @@ class ExamController {
 		
 		try{
 
-			$sql = "select q.question_id from Questions q join exams e where e.exam_id = q.exam_id and e.training_id = :training_id and e.exam_id = :exam_id ";
+			$sql = "select q.question_id from questions q join exams e where e.exam_id = q.exam_id and e.training_id = :training_id and e.exam_id = :exam_id ";
 			$stmt = $this->conn->prepare($sql);
 			$stmt->bindValue(':training_id', $training_id, PDO::PARAM_STR);
 			$stmt->bindValue(':exam_id', $exam_id, PDO::PARAM_STR);
@@ -127,6 +127,25 @@ class ExamController {
 		}
 
 		return $guid;
+	}
+	
+	function getEMAIL($firstname , $lastname){
+
+		try{
+
+		$sql = "select email from users where first_name = :firstname and last_name = :lastname and is_active = 1";
+		$stmt = $this->conn->prepare($sql);
+			$stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
+			$stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
+			$stmt->execute();
+             $result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$email = $result['email'];
+		}
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
+		}
+
+		return $email;
 	}
 
 

@@ -6,7 +6,6 @@ require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
 
 function sendEmail($email, $header, $message, $boolhtmlmessage) {
-     echo '<p>sendEmail Start</p>'; 
     $mail = new PHPMailer;
     $mail->isSMTP();
     $mail->SMTPDebug = 0;
@@ -20,13 +19,10 @@ function sendEmail($email, $header, $message, $boolhtmlmessage) {
     $mail->addAddress($email, 'CT Nurse Training');
     $mail->Subject = $header;
     $mail->Body    = $message;
-    $mail->IsHTML($htmlmessage);
+    $mail->IsHTML($boolhtmlmessage);
     //$mail->AltBody = convert_html_to_text($htmlmessage);
-     echo '<p>sendEmail Sending</p>';
     if (!$mail->send()) {
         echo "Mailer Error: " . $mail->ErrorInfo;
-    } else {
-        echo "Message sent!";
     }
 }
 

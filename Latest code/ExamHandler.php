@@ -2,6 +2,7 @@
 <?php
 
 require_once("ExamController.php");
+require_once("sendmail.php");
 $ec = new ExamController();
 
 
@@ -44,7 +45,20 @@ $wrong = count(array_diff($dbQuesAns, $userQuesAns));
 }
 
 $guid = $ec->getGUID($firstname , $lastname);
+$email = $ec->getEMAIL($firstname , $lastname);
 
+$total = $correct + $wrong;
+$score = ($correct / $total)*100;
+$message = "<html><body>Hello ".$firstname.",<br><br>";
+$message .= "We want to let you know your test results for exam ".$exam_id.".<br><br>";
+$message .= $score>80?"Congratulations!":"Better Luck Next Time";
+$message .= "<br>You completed ".$total." questions<br>";
+$message .= "You answered ".$correct." questions correct<br>";
+$message .= "You answered ".$wrong." questions incorrect<br>";
+$message .= "For a score of ".$score."%<br><br>";
+$message .= "Thank you for taking the exam.<br>We strive to provide the best training possible.<br>CT Nurse Training</body></html>";
+$title = "CT Nursing Exam ".$exam_id." results";
+sendEmail($email, $title, $message, true);
 $ec->InsertExamResults($guid,$exam_id,($correct + $wrong) , $correct);
 
 $msg = "Exam Completed!";

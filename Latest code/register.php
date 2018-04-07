@@ -16,6 +16,7 @@ function GUID()
 
 //require('config.php');
 require_once("UserController.php");
+require_once("sendmail.php");
 $uc = new UserController();
 
 $existing = false;
@@ -53,8 +54,14 @@ if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['passwor
 			$result  = $uc->insertUser($guid,$email,$password_hashed,$firstname,$lastname,$school,$gradyear,$question1,$answer1,$question2,$answer2,$access_level);
 
 			$val = $result['_return_value'];
-			if( $val == 0)
+			if( $val == 0){
 				$success = true;
+				$message = "<html><body>Hello ".$firstname.",<br><br>";
+				$message .= "We want to let you know you have succesfully registered.<br><br>";
+				$message .= "Thank you for taking the time to register.<br>We strive to provide the best training possible.<br>CT Nurse Training</body></html>";
+				$title = "CT Nurse Training Registration";
+				sendEmail($email, $title, $message, true);
+			}
 
 		}
 
