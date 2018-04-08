@@ -32,7 +32,7 @@ $questions = $_POST['question'];
     <?php 
      $result = $ac->getResultSummery();
 echo "<table border='1' cellpadding='10'>";
-    echo "<tr><th>Training</th><th>Exam</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Mark</th><th>Grade</th><th>Result Status</th><th>Graduation Year</th>
+    echo "<tr><th>Training</th><th>Exam</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Grade</th><th>Result Status</th><th>Graduation Year</th>
     <th>School Name</th><th>Exam End Date</th></tr>";
      foreach($result as $row){
       $gradeMark = $row['grade'];
@@ -62,7 +62,6 @@ echo "<table border='1' cellpadding='10'>";
          echo "<td>".$row['first_name']. "</td>";
         echo "<td>".$row['last_name']."</td>";
         echo "<td>".$grade."</td>";
-        echo "<td>".$gradeMark."</td>";
          echo "<td>".$status."</td>";
         echo "<td>".$row['graduation_year']."</td>";
          echo "<td>".$row['school_name']."</td>";
