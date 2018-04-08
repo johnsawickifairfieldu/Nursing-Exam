@@ -32,14 +32,41 @@ $questions = $_POST['question'];
     <?php 
      $result = $ac->getResultSummery();
 echo "<table border='1' cellpadding='10'>";
-    echo "<tr><th>School</th><th>First name</th><th>Last name</th><th>Grade</th></tr>";
+    echo "<tr><th>Training</th><th>Exam</th><th>Email</th><th>First Name</th><th>Last Name</th><th>Mark</th><th>Grade</th><th>Result Status</th><th>Graduation Year</th>
+    <th>School Name</th><th>Exam End Date</th></tr>";
      foreach($result as $row){
-      $first = $row['first_name'];
+      $gradeMark = $row['grade'];
+      if($gradeMark == 1){
+        $grade = 'A+';
+        $status = 'Pass';
+      }
+      else if($gradeMark >= 0.70 && $gradeMark <= 0.80){
+        $grade = 'A';
+         $status = 'Pass';
+      }else if($gradeMark >= 0.50 && $gradeMark <= 0.60){
+        $grade = 'B';
+         $status = 'Pass';
+      }else if($gradeMark >= 0.30 && $gradeMark <= 0.40){
+        $grade = 'B-';
+         $status = 'Pass';
+      }else if($gradeMark < 0.30){
+        $grade = 'C';
+         $status = 'Fail';
+      }
+      
+
         echo "<tr>";
-        echo "<td>".$row['school_name']."</td>";
-        echo "<td>".$row['first_name']. "</td>";
+         echo "<td>".$row['training_description']."</td>";
+         echo "<td>".$row['exam_description']."</td>";
+         echo "<td>".$row['email']."</td>";
+         echo "<td>".$row['first_name']. "</td>";
         echo "<td>".$row['last_name']."</td>";
-        echo "<td>".$row['grade']."</td>";
+        echo "<td>".$grade."</td>";
+        echo "<td>".$gradeMark."</td>";
+         echo "<td>".$status."</td>";
+        echo "<td>".$row['graduation_year']."</td>";
+         echo "<td>".$row['school_name']."</td>";
+          echo "<td>".$row['ended']."</td>";
         echo "</tr>";
     }
       echo "</table>";

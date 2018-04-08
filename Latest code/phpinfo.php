@@ -1,3 +1,0 @@
-<html>
-<?php phpinfo() ?>
-</html>

@@ -128,12 +128,13 @@ class ExamController {
 
 		return $guid;
 	}
-	
+
+
 	function getEMAIL($firstname , $lastname){
 
 		try{
 
-		$sql = "select email from users where first_name = :firstname and last_name = :lastname and is_active = 1";
+ 		$sql = "select email from users where first_name = :firstname and last_name = :lastname and is_active = 1";
 		$stmt = $this->conn->prepare($sql);
 			$stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
 			$stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
@@ -145,7 +146,7 @@ class ExamController {
 			echo 'Exception: ' . $e->getMessage();
 		}
 
-		return $email;
+	return $email;
 	}
 
 

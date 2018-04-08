@@ -14,7 +14,7 @@ function GUID()
 	return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
 }
 
-//require('config.php');
+
 require_once("UserController.php");
 require_once("sendmail.php");
 $uc = new UserController();
@@ -56,11 +56,12 @@ if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['passwor
 			$val = $result['_return_value'];
 			if( $val == 0){
 				$success = true;
-				$message = "<html><body>Hello ".$firstname.",<br><br>";
+			$message = "<html><body>Hello ".$firstname.",<br><br>";
 				$message .= "We want to let you know you have succesfully registered.<br><br>";
 				$message .= "Thank you for taking the time to register.<br>We strive to provide the best training possible.<br>CT Nurse Training</body></html>";
 				$title = "CT Nurse Training Registration";
 				sendEmail($email, $title, $message, true);
+
 			}
 
 		}

@@ -45,6 +45,7 @@ $wrong = count(array_diff($dbQuesAns, $userQuesAns));
 }
 
 $guid = $ec->getGUID($firstname , $lastname);
+
 $email = $ec->getEMAIL($firstname , $lastname);
 
 $total = $correct + $wrong;
@@ -59,6 +60,7 @@ $message .= "For a score of ".$score."%<br><br>";
 $message .= "Thank you for taking the exam.<br>We strive to provide the best training possible.<br>CT Nurse Training</body></html>";
 $title = "CT Nursing Exam ".$exam_id." results";
 sendEmail($email, $title, $message, true);
+
 $ec->InsertExamResults($guid,$exam_id,($correct + $wrong) , $correct);
 
 $msg = "Exam Completed!";
