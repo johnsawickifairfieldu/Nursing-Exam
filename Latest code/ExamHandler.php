@@ -239,26 +239,19 @@ $msg = "Exam Completed!";
      if(!$countExceeded){
      foreach ($question_id as $row) {
       $quesAns = $ec->getAnswerId($row['question_id']);
-      $answer_choices = array();
-      $answer_id_val_array = array();
+//Shuffle Answers
+      shuffle($quesAns);
+      $question_answer_choices = array();
+      shuffle($question_answer_choices);
       foreach ($quesAns as $val) {
         $question_text = $val['question_text'];
         $answer_text = $val['answer_text'];
         $question_id_val = $val['question_id'];
         $answer_id_val = $val['answer_id'];
-        array_push($answer_id_val_array, $answer_id_val);
-        array_push($answer_choices, $answer_text);
+        array_push($question_answer_choices, $answer_id_val);
+        array_push($question_answer_choices, $answer_text);
         
       }
- $question_answers = array_combine($answer_id_val_array, $answer_choices);
-//shuffle answers
- $shuffleKeys = array_keys($question_answers);
-shuffle($shuffleKeys);
-$shuffled_question_answers = array();
-foreach($shuffleKeys as $key) {
-    $shuffled_question_answers[$key] = $question_answers[$key];
-}
-
       $j++;
       $quesCount = $quesCount + 1;
       ?>
@@ -269,16 +262,13 @@ foreach($shuffleKeys as $key) {
       <input type="hidden" name="question[<?php echo $j; ?>]" value="<?php echo $question_id_val; ?>" />
       <p> <?php echo " $quesCount. $question_text"; ?></p>
       <?php 
-
- 
-       foreach ($shuffled_question_answers as $key => $value) {
+      for ($i = 0; $i < count($question_answer_choices); $i++) {
+       
         ?>
 
-        <input type="radio" name="radio[<?php echo $j; ?>]" value="<?php echo $key; ?>" required><?php echo $value; ?><br/>
+        <input type="radio" name="radio[<?php echo $j; ?>]" value="<?php echo $question_answer_choices[$i]; ?>" required><?php echo $question_answer_choices[++$i]; ?><br/>
         <?php
       }
-
-
     }
     ?>
       <br/>
