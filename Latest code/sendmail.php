@@ -7,7 +7,7 @@ require 'PHPMailer/SMTP.php';
 
 
 function sendEmail($email, $header, $message, $boolhtmlmessage) {
-    $mail = new PHPMailer();
+    $mail = new PHPMailer;
     $mail->isSMTP();
     $mail->SMTPDebug = 0;
     $mail->Host = 'smtp.gmail.com';
