@@ -18,7 +18,7 @@ $ac = new AdminController();
 
 	<form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
 		<?php if(isset($msg)){ ?><div role="alert"> <?php echo $msg; ?> </div><?php } ?> 
-		<a href="resultsHandler.php">Check Results </a><br/>
+		<a href="resultsAdHocReport.php">Check Results </a><br/>
 		<a href="AdminActions.php?addQuesAns=Y">Add Questions and Answers</a><br/>
 		<a href="AdminActions.php?deleteQues=Y">Delete Questions and Answers</a><br/>
 		<a href="AdminActions.php?addMaterial=Y">Add Training Materials</a><br/>
