@@ -114,7 +114,7 @@ class UserController {
 				
 				
 				
-				array_push($results, array( "_return_value" => $this->conn->query("select @_return_value")->fetchAll(), "message" => ""));
+				$results = $this->conn->query("select @_return_value")->fetch(PDO::FETCH_ASSOC);
 				
 			// Close connections
 				$stmt = null;

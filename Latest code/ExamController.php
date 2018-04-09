@@ -110,14 +110,13 @@ class ExamController {
 		return $results;
 	}
 
-	function getGUID($firstname , $lastname){
+	function getGUID($email){
 
 		try{
 
-		$sql = "select guid from users where first_name = :firstname and last_name = :lastname and is_active = 1";
+		$sql = "select guid from users where email = :email and is_active = 1";
 		$stmt = $this->conn->prepare($sql);
-			$stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
-			$stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
+			$stmt->bindValue(':email', $email, PDO::PARAM_STR);
 			$stmt->execute();
              $result = $stmt->fetch(PDO::FETCH_ASSOC);
 			$guid = $result['guid'];

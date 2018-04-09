@@ -53,7 +53,7 @@ if (isset($_POST['submit']) && !empty($_POST['email']) && !empty($_POST['passwor
 	        $access_level = 1;
 			$result  = $uc->insertUser($guid,$email,$password_hashed,$firstname,$lastname,$school,$gradyear,$question1,$answer1,$question2,$answer2,$access_level);
 
-			$val = $result['_return_value'];
+			$val = $result['@_return_value'];
 			if( $val == 0){
 				$success = true;
 			$message = "<html><body>Hello ".$firstname.",<br><br>";

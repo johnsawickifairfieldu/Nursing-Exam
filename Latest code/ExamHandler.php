@@ -13,6 +13,7 @@ $questions = $_POST['question'];
   $answers = $_POST['radio'];
   $firstname = $_POST['firstname'];
   $lastname = $_POST['lastname'];
+  $email = $_POST['email'];
 
   //load correct answers from database
 $result = $ec->getCorrectAnswers($exam_id);
@@ -44,9 +45,9 @@ $wrong = count(array_diff($dbQuesAns, $userQuesAns));
 
 }
 
-$guid = $ec->getGUID($firstname , $lastname);
+$guid = $ec->getGUID($email);
 
-$email = $ec->getEMAIL($firstname , $lastname);
+//$email = $ec->getEMAIL($firstname , $lastname);
 
 $total = $correct + $wrong;
 $score = ($correct / $total)*100;
@@ -125,9 +126,13 @@ $msg = "Exam Completed!";
                $lastname = $_SESSION['lastname'];
             echo " Welcome $firstname $lastname";
             }
+            if(isset($_SESSION['email'])){
+              $email = $_SESSION['email'];
+            }
             ?>
 <input type="hidden" name="firstname" value="<?php echo $firstname; ?>">
 <input type="hidden" name="lastname" value="<?php echo $lastname; ?>">
+<input type="hidden" name="email" value="<?php echo $email; ?>">
             
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

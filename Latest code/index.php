@@ -24,6 +24,8 @@ if (isset($_POST['login']) && !empty($_POST['email']) && !empty($_POST['password
 		if(!$result){
 			$fmsg = "Invalid Credentials.";
 			$messageClass = "alert alert-danger";
+		}else{
+			$_SESSION['email'] = $email;
 		}
 	}
 	else{
@@ -37,9 +39,10 @@ if (isset($_SESSION['firstname']) && isset($_SESSION['lastname'])){
 //if(!empty($accessLevel) && !empty($email)){	
 	$firstname = $_SESSION['firstname'];
 	$lastname = $_SESSION['lastname'];
-	$emailId = $uc->getEmailId($firstname,$lastname);
+	$emailId = $_SESSION['email'];
+	//$emailId = $uc->getEmailId($firstname,$lastname);
 	
- $accessLevel = $uc->checkUser($emailId);
+ $accessLevel = $uc->checkUser($email);
  if($accessLevel == 1){
     $url = "TrainingModule.php";
 	header("Location: ".$url);
