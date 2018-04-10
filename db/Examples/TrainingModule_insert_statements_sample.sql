@@ -2,7 +2,9 @@ USE db_team2;
 
 insert ignore into trainings values (1 , 'PHP Basics 1' ,null , 'http://my.visme.co/projects/dmvvdg0k-6ep5dm1gwej75dz3');
 insert ignore into trainings values (2 , 'PHP Basics 2' ,null, 'https://my.visme.co/projects/kkzxj9jk-18r276j7gn3756qz');
-insert ignore into trainings values (3 , 'PHP Basics 3' ,null , 'https://www.youtube.com/embed/mpQts3ezPVg?rel=0');
+insert ignore into trainings values (3 , 'HIPAA' ,null , 'https://my.visme.co/projects/01oy4v70-64r50193e6kr2pz1');
+insert ignore into trainings values (4 , 'Life Safety Management',null,'https://my.visme.co/projects/dmvdewg1-owpln01w84wn5zd6');
+
 
 select * from trainings;
 
