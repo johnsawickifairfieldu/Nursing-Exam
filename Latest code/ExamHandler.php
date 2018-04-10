@@ -1,6 +1,6 @@
 
 <?php
-
+ session_start();
 require_once("ExamController.php");
 require_once("sendmail.php");
 $ec = new ExamController();
@@ -120,7 +120,7 @@ $msg = "Exam Completed!";
         <a class="nav-link dropdown-toggle mr-auto userbutton" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  <span class="fa fa-user"></span>
          
     <?php
-    session_start();
+   
             if(isset($_SESSION['firstname']) && isset($_SESSION['lastname'])){
               $firstname = $_SESSION['firstname'];
                $lastname = $_SESSION['lastname'];
@@ -217,7 +217,7 @@ $msg = "Exam Completed!";
      $training_id = $_POST['training_id'];
    }
 
- $guid = $ec->getGUID($firstname , $lastname);
+ $guid = $ec->getGUID($email);
   
 
      if(!empty($training_id)){

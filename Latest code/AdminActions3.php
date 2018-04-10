@@ -1,6 +1,6 @@
 
 <?php
-
+session_start();
 require_once("AdminController.php");
 $ac = new AdminController();
 if (isset($_POST['submit']) && isset($_POST['questions'])){
@@ -108,7 +108,7 @@ if (isset($_POST['submit']) && isset($_POST['questions'])){
 
     <?php
 
-    session_start();
+    
 
             if(isset($_SESSION['firstname']) && isset($_SESSION['lastname'])){
 

@@ -35,14 +35,14 @@ if (isset($_POST['login']) && !empty($_POST['email']) && !empty($_POST['password
 
 }
 
-if (isset($_SESSION['firstname']) && isset($_SESSION['lastname'])){
+if (isset($_SESSION['firstname']) && isset($_SESSION['lastname']) && isset($_SESSION['email'])){
 //if(!empty($accessLevel) && !empty($email)){	
 	$firstname = $_SESSION['firstname'];
 	$lastname = $_SESSION['lastname'];
 	$emailId = $_SESSION['email'];
 	//$emailId = $uc->getEmailId($firstname,$lastname);
 	
- $accessLevel = $uc->checkUser($email);
+ $accessLevel = $uc->checkUser($emailId);
  if($accessLevel == 1){
     $url = "TrainingModule.php";
 	header("Location: ".$url);
