@@ -184,15 +184,7 @@ $msg = "Exam Completed!";
                             <li><a href="ExamHandler.php?training_id=2">Test 2</a></li>
                             <li><a href="ExamHandler.php?training_id=3">Test 3</a></li>
                         </ul></li><li>
-                        <a href="#reportSubmenu" data-toggle="collapse" aria-expanded="false">
-                            <i class="fa fa-vcard-o"></i>
-                            Reports   <i class="fa fa-angle-down"></i>
-                        </a>
-                        <ul class="collapse list-unstyled" id="reportSubmenu">
-                            <li><a href="#">Report 1</a></li>
-                            <li><a href="#">Report 2</a></li>
-                            <li><a href="#">Report 3</a></li>
-                        </ul>
+                        
                     </li>
                
                     <li>
