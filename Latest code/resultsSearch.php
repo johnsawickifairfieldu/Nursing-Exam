@@ -132,8 +132,7 @@
     <?php if(isset($msg)){ ?><div role="alert"> <?php echo $msg; ?> </div><?php } ?> 
     <?php
 
-    session_start();
-    require_once("AdminController.php");
+        require_once("AdminController.php");
     $ac = new AdminController();
 
 
