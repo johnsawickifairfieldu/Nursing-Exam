@@ -92,9 +92,16 @@
                             Materials  <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="collapse list-unstyled" id="materialSubmenu">
-                            <li><a href="TrainingMaterial.php?training_id=1">Material 1</a></li>
-                            <li><a href="TrainingMaterial.php?training_id=2">Material 2</a></li>
-                            <li><a href="TrainingMaterial.php?training_id=3">Material 3</a></li>
+                            <?php
+                            require_once("TrainingController.php");
+                            $tc = new TrainingController();
+                            $training_ids = $tc->getTrainingModuleIds();
+                            for($index = 0;$index<count($training_ids);$index++){
+                              $mat_id = $training_ids[$index]["training_id"];
+                              $training_desc = $tc->getTrainingModuleDesc($mat_id);
+                              echo '<li><a href="TrainingMaterial.php?training_id='.$mat_id.'">Material '.$training_desc[0]["training_description"].'</a></li>';
+                            }
+                            ?>
                         </ul>
                     </li>
                     <li>
@@ -103,9 +110,14 @@
                             Tests <i class="fa fa-angle-down"></i>
                         </a>
                          <ul class="collapse list-unstyled" id="testSubmenu">
-                            <li><a href="ExamHandler.php?training_id=1">Test 1</a></li>
-                            <li><a href="ExamHandler.php?training_id=2">Test 2</a></li>
-                            <li><a href="ExamHandler.php?training_id=3">Test 3</a></li>
+                            <?php
+                            $exam_ids = $tc->getExamIds();
+                            for($index = 0;$index<count($exam_ids);$index++){
+                              $mat_id = $exam_ids[$index]["exam_id"];
+                              $exam_desc = $tc->getExamDesc($mat_id);
+                              echo '<li><a href="ExamHandler.php?training_id='.$mat_id.'">Test '.$exam_desc[0]["exam_description"].'</a></li>';
+                            }
+                            ?>
                         </ul>
                         
                     </li>
