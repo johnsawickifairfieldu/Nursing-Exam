@@ -151,9 +151,9 @@
      }
      ?>
      <h2> 
-      <?php
-      $exam_desc = $tc->getExamDesc($trainingModule_id);
-      echo $exam_desc[0]["exam_description"]; 
+      <?php        
+      $training_desc = $tc->getTrainingModuleDesc($trainingModule_id);
+      echo $training_desc[0]["training_description"]; 
       ?>  
       </h2><br/>
      <?php
