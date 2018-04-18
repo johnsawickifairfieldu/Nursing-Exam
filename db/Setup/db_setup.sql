@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS security_questions (
 INSERT IGNORE INTO security_questions (secret_question) VALUES
 ('What was the name of your elementary / primary school?'),
 ('In what city or town does your nearest sibling live?'),
-('What is your pet’s name?'),
+('What is your pet''s name?'),
 ('In what year was your father born?'),
 ('What was the make and model of your first car?');
 
@@ -84,7 +84,7 @@ INSERT IGNORE INTO schools (school_name) VALUES
 ('Ridley-Lowell Business & Technical Institute-New London'),
 ('Sacred Heart University'),
 ('Southern Connecticut State University'),
-('St Vincent''s College'),
+('St. Vincent''s College'),
 ('Stone Academy-East Hartford'),
 ('Stone Academy-Waterbury'),
 ('Stone Academy-West Haven'),

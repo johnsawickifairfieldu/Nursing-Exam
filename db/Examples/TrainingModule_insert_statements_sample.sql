@@ -99,10 +99,14 @@ insert into answers values(43 , 'Error' , 11 , 0);
 insert into answers values(44 , '5' , 11 , 1);
 
 insert into questions values(12 , 'Which of the following PHP statements will not output Hello World on the screen?' , 3);
-insert into answers values(45 , 'echo (“Hello World”);' , 12 , 0);
-insert into answers values(46 , 'sprintf (“Hello World”);' , 12 , 1);
-insert into answers values(47 , 'printf (“Hello World”);' , 12 , 0);
-insert into answers values(48 , 'print (“Hello World”);' , 12 , 0);
+insert into answers values(45 , 'echo ("Hello World");' , 12 , 0)
+ON DUPLICATE KEY UPDATE answer_text='echo ("Hello World");';
+insert into answers values(46 , 'sprintf ("Hello World");' , 12 , 1)
+ON DUPLICATE KEY UPDATE answer_text='sprintf ("Hello World");';
+insert into answers values(47 , 'printf ("Hello World");' , 12 , 0)
+ON DUPLICATE KEY UPDATE answer_text='printf ("Hello World");';
+insert into answers values(48 , 'print ("Hello World");' , 12 , 0)
+ON DUPLICATE KEY UPDATE answer_text='print ("Hello World");';
 
 select * from questions;
 select * from answers;

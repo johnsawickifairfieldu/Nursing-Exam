@@ -197,7 +197,7 @@ else if($success ){
 
 				foreach($result as $row){
 
-					echo "<option value='" . $row['school_name'] . "'>" . $row['school_name'] . "</option>";
+					echo '<option value="' . $row['school_name'] . '">' . $row['school_name'] . '</option>';
 				}
 
 				?>
@@ -254,7 +254,7 @@ else if($success ){
 
 				foreach($result as $row){
 
-					echo "<option value='" . $row['secret_question'] . "'>" . $row['secret_question'] . "</option>";
+					echo '<option value="' . $row['secret_question'] . '">' . $row['secret_question'] . '</option>';
 				}
 
 				?>
@@ -273,7 +273,7 @@ else if($success ){
 
 				foreach($result as $row){
 
-					echo "<option value='" . $row['secret_question'] . "'>" . $row['secret_question'] . "</option>";
+					echo '<option value="' . $row['secret_question'] . '">' . $row['secret_question'] . '</option>';
 				}
 
 				?>
