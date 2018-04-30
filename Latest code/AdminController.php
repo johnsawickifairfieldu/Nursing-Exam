@@ -11,71 +11,101 @@ class AdminController {
 		$this->conn = $db->get_connection();
 	}
 
-	function getResultSummery($training_description,$exam_description,$status,$search,$searchValue){
+	function getResultSummery($training_description,$exam_description,$status,$firstName,$lastName,$school,$sort){
 		$results = array();
 		
+
+		if($sort == "Grade"){
+			$sort = "grade";
+			$sorting = "$sort DESC";
+		}else if($sort == "School"){
+			$sort = "u.school_name";
+			$sorting = "$sort ASC";
+		}else if($sort == "First Name"){
+			$sort = "u.first_name";
+			$sorting = "$sort ASC";
+
+		}else if($sort == "Last Name"){
+			
+			$sort = "u.last_name";
+			$sorting = "$sort ASC";
+		}else if($sort == "Date"){
+			
+			$sort = "res.ended";
+			$sorting = "$sort ASC";
+		}else if($sort == null){
+			$sort = "grade";
+			$sorting = "$sort DESC";
+		}
+		
+
 		try{
 			if($training_description != null){
 
 				$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where tr.training_description = :training_description order by grade DESC ";
+				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where tr.training_description = :training_description order by $sorting ";
 				$stmt = $this->conn->prepare($sql);
 				$stmt->bindValue(':training_description', $training_description, PDO::PARAM_STR);
 
 			}else if($exam_description != null){
 
 				$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where ex.exam_description = :exam_description order by grade DESC ";
+				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where ex.exam_description = :exam_description order by $sorting ";
 				$stmt = $this->conn->prepare($sql);
 				$stmt->bindValue(':exam_description', $exam_description, PDO::PARAM_STR);
 
 			}else if($status != null){
 
-				if($status == 'failed'){
+				if($status == 'Failed'){
 
 					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) < 0.30 order by grade DESC ";
+					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) < 0.30 order by $sorting ";
 					$stmt = $this->conn->prepare($sql);
 
-				}else if($status == 'passed'){
+				}else if($status == 'Passed'){
 
 					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) > 0.30 order by grade DESC ";
+					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) > 0.30 order by $sorting ";
 					$stmt = $this->conn->prepare($sql);
 
 
 				}
 
-			}else if($search != null){
+			}
 
-				if($search == 'school'){
-
-					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.school_name = :searchValue order by grade DESC ";
-					$stmt = $this->conn->prepare($sql);
-					$stmt->bindValue(':searchValue', $searchValue, PDO::PARAM_STR);
-
-				} else if($search == 'firstname'){
+				else if($school != null){
 
 					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.first_name = :searchValue order by grade DESC ";
+					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.school_name = :school order by $sorting ";
 					$stmt = $this->conn->prepare($sql);
-					$stmt->bindValue(':searchValue', $searchValue, PDO::PARAM_STR);
+					$stmt->bindValue(':school', $school, PDO::PARAM_STR);
 
-				} else if($search == 'lastname'){
+				} 
+                     
+ 				 else if($firstName != null){
 
 					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.last_name = :searchValue order by grade DESC ";
+					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.first_name = :firstName order by $sorting ";
 					$stmt = $this->conn->prepare($sql);
-					$stmt->bindValue(':searchValue', $searchValue, PDO::PARAM_STR);
+					$stmt->bindValue(':firstName', $firstName, PDO::PARAM_STR);
+
+				} 
+				else if($lastName != null){
+
+					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
+					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.last_name = :lastName order by $sorting ";
+					$stmt = $this->conn->prepare($sql);
+					$stmt->bindValue(':lastName', $lastName, PDO::PARAM_STR);
 
 				}
 
-			}else{
+			else{
 
 				$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id  order by grade DESC ";
+				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex 
+				on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id  order by $sorting ";
 				$stmt = $this->conn->prepare($sql);
+				
 
 
 			}
@@ -89,6 +119,7 @@ class AdminController {
 		}
 		catch (PDOException $e) {
 			echo 'Exception: ' . $e->getMessage();
+			error_log($e);
 		}
 
 		return $results;
@@ -192,6 +223,8 @@ class AdminController {
 
 
 	}
+
+	
 
 	
 

@@ -168,7 +168,7 @@ $ac = new AdminController();
       <div class="row">
          <div class="col-md-4  ">
         
-          <a href="resultsAdHocReport.php" class="col btn btn-warning btn-block" id="btn1" ><i class="fa fa-search"></i> Check Results
+          <a href="resultsHandler.php?results=all" class="col btn btn-warning btn-block" id="btn1" ><i class="fa fa-search"></i> Check Results
           </a>
         </div>
         <div class="col-md-4">
