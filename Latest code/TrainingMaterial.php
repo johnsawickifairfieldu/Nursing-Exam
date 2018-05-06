@@ -45,7 +45,7 @@
      <ul class="nav navbar-nav navbar-right ml-auto">
       <li class="nav-item dropdown">
         <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-        <a class="nav-link dropdown-toggle mr-auto userbutton" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  <span class="fa fa-user"></span>
+        <a class="nav-link mr-auto userbutton" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  <span class="fa fa-user"></span>
          
     <?php
     session_start();
@@ -58,11 +58,9 @@
 
             
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Profile</a>
-          <a class="dropdown-item" href="#">Settings</a>
+       
           
-        </div></form>
+      
       </li>
       <li class="nav-item"><a href="logout.php" class="nav-link userbutton">
           <span class="fa fa-mail-forward"></span> Logout</a></li>
@@ -120,19 +118,18 @@
                             ?>
                         </ul>
                         
-                    </li>
-               
                     <li>
-                        <a href="#">
-                            <i class="fa fa-paperclip"></i>
-                            FAQ
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
+                        <a href="#contactSubmenu"  data-toggle="collapse" aria-expanded="false">
                             <i class="fa fa-send"></i>
-                            Contact
+                            Contact <i class="fa fa-angle-down"></i>
                         </a>
+						<ul class="collapse list-unstyled" id="contactSubmenu">
+						  <a class="address">
+                              Fairfield University <br>
+							  1073 Banson Road <br>
+							  Fairfield, Connecticut 06824 <br>
+							  P: (203) 684-0653 <br>
+							 </a> 
                     </li>
                 </ul>
 
