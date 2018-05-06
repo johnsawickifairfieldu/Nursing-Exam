@@ -116,15 +116,11 @@
                               echo '<li><a href="ExamHandler.php?training_id='.$mat_id.'">Test '.$exam_desc[0]["exam_description"].'</a></li>';
                             }
                             ?>
-                        </ul>
+                        </ul></li><li>
                         
                     </li>
                
                     <li>
-                        <a href="#">
-                            <i class="fa fa-paperclip"></i>
-                            FAQ
-                        </a>
                     </li>
                     <li>
                         <a href="#contactSubmenu"  data-toggle="collapse" aria-expanded="false">
