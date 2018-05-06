@@ -2,7 +2,8 @@
 session_start();
 require_once("AdminController.php");
 $ac = new AdminController();
-
+$exam_id = null;
+$exam_name = null;
 if (isset($_POST['submitActions']) ){
 
 	if(isset($_POST['exam'])){
@@ -11,9 +12,12 @@ if (isset($_POST['submitActions']) ){
 		foreach($result as $row){
 			$exam_id = $row['exam_id'];
 		}
+	}else if(isset($_POST['newExam'])){
+		$exam_name = $_POST['newExam'];
 	}
 
 	if(isset($_POST['addQuesAns']) && isset($_POST['question']) && isset($_POST['option1']) && isset($_POST['option2']) && isset($_POST['option3']) && isset($_POST['option4']) && isset($_POST['isCorrect1']) && isset($_POST['isCorrect2']) && isset($_POST['isCorrect3']) && isset($_POST['isCorrect4'])){
+		$training_id = $_POST['training_id'];
 		$addQuesAns = $_POST['addQuesAns'];
 		$question_text = $_POST['question'];
 		$option1_text = $_POST['option1'];
@@ -24,6 +28,7 @@ if (isset($_POST['submitActions']) ){
 		$isCorrect2 = $_POST['isCorrect2'];
 		$isCorrect3 = $_POST['isCorrect3'];
 		$isCorrect4 = $_POST['isCorrect4'];
+		
 
 		if($addQuesAns != null){
 
@@ -49,8 +54,21 @@ if (isset($_POST['submitActions']) ){
 				$isCorrect4 = 1;
 			}
 
+			if($exam_id != null){
+				$result = $ac->addQuesAns($exam_id,$question_text,$option1_text,$isCorrect1,$option2_text,$isCorrect2,$option3_text,$isCorrect3,$option4_text,$isCorrect4);
+			}else if($exam_name != null && $training_id != null ){
+				$result = $ac->insertExam($exam_name,$training_id);
+				if($result == 1){
+					$result = $ac->getExamId($exam_name);
+					foreach($result as $row){
+						$exam_id = $row['exam_id'];
+					}
+					if($exam_id != null){
+						$result = $ac->addQuesAns($exam_id,$question_text,$option1_text,$isCorrect1,$option2_text,$isCorrect2,$option3_text,$isCorrect3,$option4_text,$isCorrect4);
+					}
 
-			$result = $ac->addQuesAns($exam_id,$question_text,$option1_text,$isCorrect1,$option2_text,$isCorrect2,$option3_text,$isCorrect3,$option4_text,$isCorrect4);
+				}
+			}
 			//echo "Added Question";
 			$msg = "Added Question";
 			$url = "AdminPage.php?msg=$msg";
@@ -258,17 +276,27 @@ if (isset($_POST['submitActions']) ){
 
 
 									<div class="row">
-										<label class="col-sm-4 col-form-label" for="exam">Select Exam :</label>
-										<select name="exam" class="form-control col-sm-6" id="exam" required  >
+										<?php $result = $ac->getExams($training_id);
+										if($result != null){
 
-											<option value="" disabled selected>Select..</option>
-											<?php
+											?>
+											<label class="col-sm-4 col-form-label" for="exam">Select Exam :</label>
+											<select name="exam" class="form-control col-sm-6" id="exam" required  >
 
-											$result = $ac->getExams($training_id);
+												<option value="" disabled selected>Select..</option>
+												<?php
 
-											foreach($result as $row){
 
-												echo "<option value='" . $row['exam_description'] . "'>" . $row['exam_description'] . "</option>";
+
+												foreach($result as $row){
+
+													echo "<option value='" . $row['exam_description'] . "'>" . $row['exam_description'] . "</option>";
+												}
+											}else{
+												?>
+												<label class="col-sm-4 col-form-label" for="exam">Enter Exam :</label>
+												<input type="text" class="form-control col-sm-6" name="newExam" id="newExam" placeholder="Enter the Exam Name" required>
+												<?php
 											}
 
 											?>
@@ -276,6 +304,7 @@ if (isset($_POST['submitActions']) ){
 
 										</select></div><br/>
 										<p>Note: Enter Y for corrcet answer and N for wrong answer</p>
+										<input type="hidden" name="training_id" value="<?php echo $training_id; ?>" >
 										<div class="row mb-3">
 
 											<input type="hidden" class="form-control" name="addQuesAns" value="<?php echo $addQuesAns; ?>">
@@ -318,89 +347,89 @@ if (isset($_POST['submitActions']) ){
 
 												
 
-											<?php
-										}
-									}else if($deleteQues != null){
-
-										if($deleteQues == 'Y'){
-
-											?>
-
-											<nav aria-label="breadcrumb" class="py-3">
-												<ol class="breadcrumb">
-													<li class="breadcrumb-item" aria-current="page"><a href="AdminPage.php" >Home</a></li>
-													<li class="breadcrumb-item" aria-current="page"><a href="AdminActions.php?deleteQues=Y"> Delete Q&A </a></li>
-													<li class="breadcrumb-item active" aria-current="page">Select Exam</li>
-												</ol>
-											</nav>
-
-
-
-											<div class="row">
-												<label for="exam" class="col-sm-2 col-form-label">Select Exam:</label>
-												<select name="exam" class="form-control col-sm-8" id="exam" required>
-
-
-													<option value="" disabled selected>Select..</option>
-													<?php
-
-													$result = $ac->getExams($training_id);
-
-													foreach($result as $row){
-
-														echo "<option value='" . $row['exam_description'] . "'>" . $row['exam_description'] . "</option>";
-													}
-
-													?>
-
-
-												</select></div></div>
-												<input type="hidden" name="deleteQues" value="<?php echo $deleteQues; ?>">
-
-
 												<?php
 											}
-										}else if($editMaterial != null){
-											if($editMaterial == 'Y'){
+										}else if($deleteQues != null){
+
+											if($deleteQues == 'Y'){
+
 												?>
 
 												<nav aria-label="breadcrumb" class="py-3">
 													<ol class="breadcrumb">
 														<li class="breadcrumb-item" aria-current="page"><a href="AdminPage.php" >Home</a></li>
-														<li class="breadcrumb-item" aria-current="page"><a href="AdminActions.php?editMaterial=Y"> Edit Material </a></li>
-														<li class="breadcrumb-item active" aria-current="page">Enter New Url</li>
+														<li class="breadcrumb-item" aria-current="page"><a href="AdminActions.php?deleteQues=Y"> Delete Q&A </a></li>
+														<li class="breadcrumb-item active" aria-current="page">Select Exam</li>
 													</ol>
 												</nav>
 
 
 
-												<div class="row justify-content-center">
-													<input type="text" class="form-control col-sm-4" name="editUrl"  placeholder="Enter new URL">
-													<input type="hidden" class="form-control" name="editMaterial" value="<?php echo $editMaterial; ?>">
+												<div class="row">
+													<label for="exam" class="col-sm-2 col-form-label">Select Exam:</label>
+													<select name="exam" class="form-control col-sm-8" id="exam" required>
+
+
+														<option value="" disabled selected>Select..</option>
+														<?php
+
+														$result = $ac->getExams($training_id);
+
+														foreach($result as $row){
+
+															echo "<option value='" . $row['exam_description'] . "'>" . $row['exam_description'] . "</option>";
+														}
+
+														?>
+
+
+													</select></div></div>
+													<input type="hidden" name="deleteQues" value="<?php echo $deleteQues; ?>">
+
+
+													<?php
+												}
+											}else if($editMaterial != null){
+												if($editMaterial == 'Y'){
+													?>
+
+													<nav aria-label="breadcrumb" class="py-3">
+														<ol class="breadcrumb">
+															<li class="breadcrumb-item" aria-current="page"><a href="AdminPage.php" >Home</a></li>
+															<li class="breadcrumb-item" aria-current="page"><a href="AdminActions.php?editMaterial=Y"> Edit Material </a></li>
+															<li class="breadcrumb-item active" aria-current="page">Enter New Url</li>
+														</ol>
+													</nav>
+
+
+
+													<div class="row justify-content-center">
+														<input type="text" class="form-control col-sm-4" name="editUrl"  placeholder="Enter new URL">
+														<input type="hidden" class="form-control" name="editMaterial" value="<?php echo $editMaterial; ?>">
+													</div>
 												</div>
-											</div>
+												<?php
+											}
+										}
+
+
+										if($training_id != null){
+											?>
+											<input type="hidden" name="training_id"  value="<?php echo $training_id; ?>">
 											<?php
 										}
-									}
-
-
-									if($training_id != null){
 										?>
-										<input type="hidden" name="training_id"  value="<?php echo $training_id; ?>">
-										<?php
-									}
-									?>
-								</br></br>
-								<div class="container text-center">
+									</br></br>
+									<div class="container text-center">
 
-									<input type="submit" class="btn btn-success" name="submitActions">
+										<input type="submit" class="btn btn-success" name="submitActions">
 
-								</div>
-							</form>
-						</div>
-					</div></div>
-				</body>
-				</html>
-				<?php
-			}
-			?>
+									</div>
+								</form>
+							</div>
+						</div></div>
+					</body>
+					</html>
+					<?php
+				}
+				?>

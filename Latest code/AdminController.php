@@ -32,7 +32,7 @@ class AdminController {
 		}else if($sort == "Date"){
 			
 			$sort = "res.ended";
-			$sorting = "$sort ASC";
+			$sorting = "$sort DESC";
 		}else if($sort == null){
 			$sort = "grade";
 			$sorting = "$sort DESC";
@@ -73,31 +73,31 @@ class AdminController {
 
 			}
 
-				else if($school != null){
+			else if($school != null){
 
-					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.school_name = :school order by $sorting ";
-					$stmt = $this->conn->prepare($sql);
-					$stmt->bindValue(':school', $school, PDO::PARAM_STR);
+				$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
+				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.school_name = :school order by $sorting ";
+				$stmt = $this->conn->prepare($sql);
+				$stmt->bindValue(':school', $school, PDO::PARAM_STR);
 
-				} 
-                     
- 				 else if($firstName != null){
+			} 
+			
+			else if($firstName != null){
 
-					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.first_name = :firstName order by $sorting ";
-					$stmt = $this->conn->prepare($sql);
-					$stmt->bindValue(':firstName', $firstName, PDO::PARAM_STR);
+				$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
+				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.first_name = :firstName order by $sorting ";
+				$stmt = $this->conn->prepare($sql);
+				$stmt->bindValue(':firstName', $firstName, PDO::PARAM_STR);
 
-				} 
-				else if($lastName != null){
+			} 
+			else if($lastName != null){
 
-					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.last_name = :lastName order by $sorting ";
-					$stmt = $this->conn->prepare($sql);
-					$stmt->bindValue(':lastName', $lastName, PDO::PARAM_STR);
+				$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
+				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.last_name = :lastName order by $sorting ";
+				$stmt = $this->conn->prepare($sql);
+				$stmt->bindValue(':lastName', $lastName, PDO::PARAM_STR);
 
-				}
+			}
 
 			else{
 
@@ -455,6 +455,35 @@ class AdminController {
 		return $count;
 
 	}
+
+
+	function insertExam($exam_name,$training_id){
+
+		$exam_id = null;
+
+		try{
+
+			$sql = "insert into exams(exam_id,exam_description,training_id ) select max(exam_id)+1,:exam_name,:training_id from exams;";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->bindValue(':exam_name', $exam_name, PDO::PARAM_STR);
+			$stmt->bindValue(':training_id', $training_id, PDO::PARAM_STR);	
+			$stmt->execute();
+			$count = $stmt->rowCount();
+
+				// Close connections
+			$stmt = null;
+			$connection = null;
+		}
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
+		}
+
+		return $count;
+
+	}
+
+
+
 
 
 }
