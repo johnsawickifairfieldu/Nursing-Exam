@@ -45,7 +45,7 @@
      <ul class="nav navbar-nav navbar-right ml-auto">
       <li class="nav-item dropdown">
         <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-        <a class="nav-link dropdown-toggle mr-auto userbutton" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  <span class="fa fa-user"></span>
+        <a class="nav-link mr-auto userbutton" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  <span class="fa fa-user"></span>
          
     <?php
     session_start();
@@ -58,11 +58,9 @@
 
             
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Profile</a>
-          <a class="dropdown-item" href="#">Settings</a>
+        
           
-        </div></form>
+        
       </li>
       <li class="nav-item"><a href="logout.php" class="nav-link userbutton">
           <span class="fa fa-mail-forward"></span> Logout</a></li>
@@ -129,10 +127,17 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="#contactSubmenu"  data-toggle="collapse" aria-expanded="false">
                             <i class="fa fa-send"></i>
-                            Contact
+                            Contact <i class="fa fa-angle-down"></i>
                         </a>
+						<ul class="collapse list-unstyled" id="contactSubmenu">
+						  <a class="address">
+                              Fairfield University <br>
+							  1073 Banson Road <br>
+							  Fairfield, Connecticut 06824 <br>
+							  P: (203) 684-0653 <br>
+							 </a> 
                     </li>
                 </ul>
 
@@ -142,46 +147,22 @@
             <!-- Page Content Holder -->
             <div id="content">
 
-<h3>Overview</h3>
+<h2>Overview</h2>
 <div class="card-deck ">
-  <div class="card col-sm-3">
- 
-    <div class="progress card-img-top"  style="height:20px; margin-top: 5px;">
-  <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-    <div class="card-body">
-      <h5 class="card-title">Materials Completed</h5>
-      <p class="card-text"></p>
-      <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
-    </div>
 
-    </div>
-  </div>
-  <div class="card col-sm-3">
-   
-    <div class="progress card-img-top" style="height:20px; margin-top: 5px;">
-  <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
     <div class="card-body">
-      <h5 class="card-title">Tests Completed</h5>
+      <h3 class="card-title">Instructions</h3>
       <p class="card-text"></p>
       <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
-    </div>
-
-    </div>
-  </div>
-   <div class="card col-sm-3">
-  
-    <div class="progress card-img-top"  style="height:20px; margin-top: 5px;">
-  <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-    <div class="card-body">
-      <h5 class="card-title">Reports Sent</h5>
-      <p class="card-text"></p>
-      <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
+      <h4 class="text-text"><i>
+	  There are 4 training Materials <br>
+	  You must take a training course before the test <br>
+	  You have to take a test based on the training content <br>
+	  You don't have to take tests in order <br>
+	  You will have 3 chances to retake each Exam <br>
+	  
+	  </h4>
     </div>
 
     </div>
