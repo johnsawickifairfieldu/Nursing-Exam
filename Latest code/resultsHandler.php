@@ -14,7 +14,7 @@ $selectedSchool = null;
 $nameFilter = false;
 $sort = null;
 if(!isset($_POST['submit']) ){
-  $result = $ac->getResultSummery(null,null,null,null,null,null,$sort);
+  $result = $ac->getResultSummery(null,null,null,null,null,null,null,$sort);
 }
 
 if(isset($_POST['submit']) ){
@@ -33,14 +33,16 @@ if(isset($_POST['submit']) ){
    unset($_POST['firstNameSearch']);
    unset($_POST['lastNameSearch']);
    unset($_POST['schoolSelect']);
+   unset($_POST['yearSelect']);
 
-   $result = $ac->getResultSummery(null,null,null,null,null,null,$sort);
+   $result = $ac->getResultSummery(null,null,null,null,null,null,null,$sort);
 
  }
  else if($filter == "School"){
   unset($_POST['trainingSelect']);
   unset($_POST['firstNameSearch']);
    unset($_POST['lastNameSearch']);
+   unset($_POST['yearSelect']);
 
 
   $schoolResult = $ac->getSchools();
@@ -49,6 +51,7 @@ if(isset($_POST['submit']) ){
   unset($_POST['schoolSelect']);
   unset($_POST['firstNameSearch']);
    unset($_POST['lastNameSearch']);
+   unset($_POST['yearSelect']);
 
   $trainingResult = $ac->getTrainings();
 
@@ -59,20 +62,29 @@ else if($filter == "Passed" || $filter == "Failed"){
   unset($_POST['firstNameSearch']);
    unset($_POST['lastNameSearch']);
   unset($_POST['schoolSelect']);
-  $result = $ac->getResultSummery(null,null,$status,null,null,null,$sort); 
+  unset($_POST['yearSelect']);
+  $result = $ac->getResultSummery(null,null,$status,null,null,null,null,$sort); 
 
 }
 else if($filter == "Last Name" || $filter == "First Name"){
 
  unset($_POST['schoolSelect']);
  unset($_POST['trainingSelect']);
+ unset($_POST['yearSelect']);
  $nameFilter = true;
+
+}else if($filter == "Graduation Year"){
+
+ unset($_POST['trainingSelect']);
+  unset($_POST['firstNameSearch']);
+   unset($_POST['lastNameSearch']);
+  unset($_POST['schoolSelect']);
+  $yearResult = $ac->getGraduationYear();
 
 }
 
 if(isset($_POST['schoolSelect'])){
-  // $filter = $_POST['filter'];
-   // $sort = $_POST['sort'];
+
   $nameFilter = false;
   $trainingResult = null;
 
@@ -81,14 +93,13 @@ if(isset($_POST['schoolSelect'])){
   $selectedSchool =  $schoolSelect;
   if($schoolSelect != null){
 
-    $result = $ac->getResultSummery(null,null,null,null,null,$schoolSelect,$sort); 
+    $result = $ac->getResultSummery(null,null,null,null,null,$schoolSelect,null,$sort); 
 
   }
 }
 
 else if(isset($_POST['trainingSelect'])){
-  // $filter = $_POST['filter'];
-   // $sort = $_POST['sort'];
+
   $schoolResult = null; 
   $nameFilter = false;
 
@@ -97,7 +108,7 @@ else if(isset($_POST['trainingSelect'])){
   $selectedTraining = $trainingSelect;
   if($trainingSelect != null){
 
-   $result = $ac->getResultSummery($trainingSelect,null,null,null,null,null,$sort); 
+   $result = $ac->getResultSummery($trainingSelect,null,null,null,null,null,null,$sort); 
  }
 
 }
@@ -115,7 +126,7 @@ else if(isset($_POST['firstNameSearch'])){
  $firstNameSearch = $_POST['firstNameSearch'];
  if($filter == "First Name"){
   $firstname = $firstNameSearch;
-  $result = $ac->getResultSummery(null,null,null,$firstname,null,null,$sort); 
+  $result = $ac->getResultSummery(null,null,null,$firstname,null,null,null,$sort); 
 }
 }
 else if(isset($_POST['lastNameSearch'])){
@@ -131,8 +142,23 @@ else if(isset($_POST['lastNameSearch'])){
  $lastNameSearch = $_POST['lastNameSearch'];
  if($filter == "Last Name"){
   $lastname = $lastNameSearch;
-  $result = $ac->getResultSummery(null,null,null,null,$lastname,null,$sort); 
+  $result = $ac->getResultSummery(null,null,null,null,$lastname,null,null,$sort); 
 }
+}
+else if(isset($_POST['yearSelect'])){
+ 
+  $nameFilter = false;
+   $schoolResult = null;
+   $trainingResult = null; 
+
+  $yearSelect = $_POST['yearSelect'];
+  $yearResult = $ac->getGraduationYear();
+  $selectedYear = $yearSelect;
+  if($yearSelect != null){
+
+   $result = $ac->getResultSummery(null,null,null,null,null,null,$yearSelect,$sort); 
+ }
+
 }
 
 }
@@ -333,6 +359,7 @@ else if(isset($_POST['lastNameSearch'])){
              <option <?php if ($sort == "First Name" ) echo 'selected' ; ?> value="First Name">First Name</option>
              <option <?php if ($sort == "Last Name" ) echo 'selected' ; ?> value="Last Name">Last Name</option>
              <option <?php if ($sort == "Date" ) echo 'selected' ; ?> value="Date">Date</option>
+             <option <?php if ($sort == "Graduation Year" ) echo 'selected' ; ?> value="Graduation Year">Graduation Year</option>
 
            </select> </div>
          </div>
@@ -354,6 +381,7 @@ else if(isset($_POST['lastNameSearch'])){
      <option <?php if ($filter == "School" ) echo 'selected' ; ?> value="School">School</option>
      <option <?php if ($filter == "First Name" ) echo 'selected' ; ?> value="First Name">First Name</option>
      <option <?php if ($filter == "Last Name" ) echo 'selected' ; ?> value="Last Name">Last Name</option>
+     <option <?php if ($filter == "Graduation Year" ) echo 'selected' ; ?> value="Graduation Year">Graduation Year</option>
 
    </select> 
  </div>
@@ -418,6 +446,37 @@ if(isset($schoolResult)){
 
 
       echo '<option  value="' . $rows['school_name'] . '" '.(($selectedSchool==$rows['school_name'])?'selected="selected"':"").'>' . $rows['school_name'] . '</option>';
+    }
+
+
+
+    echo"</select>";
+    echo '</div>';
+    echo '</div>';
+  }
+  echo'&nbsp;';
+
+
+}
+
+
+if(isset($yearResult)){ 
+  if($yearResult != null){
+
+
+    echo '<div class="col-md-4">';
+    echo '<div class="input-group">';
+    echo '<div class="input-group-prepend">';
+    echo'<label class="input-group-text" for="yearSelect">Select:</label>';
+    echo '</div>';
+    echo '<select id="yearSelect" placeholder ="Select Graduation year" name="yearSelect" class="form-control custom-select">';
+
+
+
+    foreach($yearResult as $rows){
+
+
+      echo '<option  value="' . $rows['graduation_year'] . '" '.(($selectedYear==$rows['graduation_year'])?'selected="selected"':"").'>' . $rows['graduation_year'] . '</option>';
     }
 
 

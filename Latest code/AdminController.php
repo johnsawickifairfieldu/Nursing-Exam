@@ -11,7 +11,7 @@ class AdminController {
 		$this->conn = $db->get_connection();
 	}
 
-	function getResultSummery($training_description,$exam_description,$status,$firstName,$lastName,$school,$sort){
+	function getResultSummery($training_description,$exam_description,$status,$firstName,$lastName,$school,$selectedYear,$sort){
 		$results = array();
 		
 
@@ -33,7 +33,11 @@ class AdminController {
 			
 			$sort = "res.ended";
 			$sorting = "$sort DESC";
-		}else if($sort == null){
+		}else if($sort == "Graduation Year"){
+			$sort = "u.graduation_year";
+			$sorting = "$sort DESC";
+		}
+		else if($sort == null){
 			$sort = "grade";
 			$sorting = "$sort DESC";
 		}
@@ -80,8 +84,15 @@ class AdminController {
 				$stmt = $this->conn->prepare($sql);
 				$stmt->bindValue(':school', $school, PDO::PARAM_STR);
 
+			} else if($selectedYear != null){
+
+				$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
+				res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where u.graduation_year = :selectedYear order by $sorting ";
+				$stmt = $this->conn->prepare($sql);
+				$stmt->bindValue(':selectedYear', $selectedYear, PDO::PARAM_STR);
+
 			} 
-			
+
 			else if($firstName != null){
 
 				$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
@@ -183,6 +194,29 @@ class AdminController {
 		try{
 			
 			$sql = "CALL sp_GetSchools(@returnval)";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute();
+
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+				array_push($results, $row);
+				
+			}
+		}
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
+		}
+		
+		return $results;
+		
+
+	}
+
+	function getGraduationYear(){
+		$results = array();
+		//require('config.php');
+		try{
+			
+			$sql = "select distinct graduation_year from users";
 			$stmt = $this->conn->prepare($sql);
 			$stmt->execute();
 
