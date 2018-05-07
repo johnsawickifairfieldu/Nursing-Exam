@@ -568,7 +568,7 @@ if(isset($result)){
         $status = 'Pass';
       }
       else if($gradeMark >= 0.80 && $gradeMark <1){
-        $grade = 'B';
+        $grade = 'A-';
          $status = 'Pass';
       }else if($gradeMark < 0.80){
         $grade = 'B';
