@@ -117,7 +117,7 @@ $msg = "Exam Completed!";
      <ul class="nav navbar-nav navbar-right ml-auto">
       <li class="nav-item dropdown">
         <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-        <a class="nav-link mr-auto userbutton" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  <span class="fa fa-user"></span>
+        <a class="nav-link dropdown-toggle mr-auto userbutton" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  <span class="fa fa-user"></span>
          
     <?php
    
@@ -135,8 +135,11 @@ $msg = "Exam Completed!";
 <input type="hidden" name="email" value="<?php echo $email; ?>">
             
         </a>
-        
-         
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" href="#">Settings</a>
+          
+        </div>
       </li>
       <li class="nav-item"><a href="logout.php" class="nav-link userbutton">
           <span class="fa fa-mail-forward"></span> Logout</a></li>
@@ -155,7 +158,7 @@ $msg = "Exam Completed!";
 
                 <ul class="list-unstyled components">
                   <li >
-                     <a href="#">   <!--  data-toggle="collapse" aria-expanded="false" -->
+                     <a href="TrainingModule.php">   <!--  data-toggle="collapse" aria-expanded="false" -->
                             <i class="fa fa-pie-chart"></i>
                             Overview
                         </a>
@@ -168,10 +171,12 @@ $msg = "Exam Completed!";
                         <ul class="collapse list-unstyled" id="materialSubmenu">
                             <?php
                             $training_ids = $ec->getTrainingModuleIds();
+                            $user_guid = $ec->getGUID($_SESSION['email']);
                             for($index = 0;$index<count($training_ids);$index++){
                               $mat_id = $training_ids[$index]["training_id"];
                               $training_desc = $ec->getTrainingModuleDesc($mat_id);
-                              echo '<li><a href="TrainingMaterial.php?training_id='.$mat_id.'">Material '.$training_desc[0]["training_description"].'</a></li>';
+                              if(!$ec->getExamComplete($mat_id, $user_guid))
+                                echo '<li><a href="TrainingMaterial.php?training_id='.$mat_id.'">Material '.$training_desc[0]["training_description"].'</a></li>';
                             }
                             ?>
                         </ul>
@@ -187,29 +192,19 @@ $msg = "Exam Completed!";
                             for($index = 0;$index<count($exam_ids);$index++){
                               $mat_id = $exam_ids[$index]["exam_id"];
                               $exam_desc = $ec->getExamDesc($mat_id);
-                              echo '<li><a href="ExamHandler.php?training_id='.$mat_id.'">Test '.$exam_desc[0]["exam_description"].'</a></li>';
+                              if(!$ec->getExamComplete($mat_id, $user_guid))
+                                echo '<li><a href="ExamHandler.php?training_id='.$mat_id.'">Test '.$exam_desc[0]["exam_description"].'</a></li>';
                             }
                             ?>
-                        </ul></li><li>
-                        
-                    </li>
+                        </ul></li>
                
+                  
                     <li>
-                       
-                    </li>
-                    <li>
-                        <a href="#contactSubmenu"  data-toggle="collapse" aria-expanded="false">
+                        <a href="contactPage.php">
                             <i class="fa fa-send"></i>
-                            Contact <i class="fa fa-angle-down"></i>
+                            Contact Us</i>
                         </a>
-						<ul class="collapse list-unstyled" id="contactSubmenu">
-						  <a class="address">
-         Fairfield University <br>
-							  1073 Banson Road <br>
-							  Fairfield, Connecticut 06824 <br>
-							  P: (203) 684-0653 <br>
-							 </a> 
-                    </li>
+            
                 </ul>
 
               
@@ -280,7 +275,7 @@ $msg = "Exam Completed!";
     }
     ?>
       <br/>
-    <input type="submit" name="submit" value="Submit">  
+    <input type="submit" class="btn btn-success" name="submit" value="Submit">  
       <?php
   }else{
     ?>

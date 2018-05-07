@@ -308,4 +308,38 @@ $results = array();
 		return $results;
 
 	}
+
+	//get if test should be loaded 
+	function getExamComplete($exam_id, $guid){
+		$result = FALSE;
+		
+		try{
+			$sql = "select * from results where exam_id = :exam_id and guid = :guid and total_questions_answered_correctly/total_available_questions > .8";
+			$stmt = $this->conn->prepare($sql);
+			$stmt->bindValue(':exam_id', $exam_id, PDO::PARAM_STR);
+			$stmt->bindValue(':guid', $guid, PDO::PARAM_STR);
+			$stmt->execute();
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+				$result = TRUE;
+			}
+			if(!$result){
+				$sql = "select * from results where exam_id = :exam_id and guid = :guid";
+				$stmt = $this->conn->prepare($sql);
+				$stmt->bindValue(':exam_id', $exam_id, PDO::PARAM_STR);
+				$stmt->bindValue(':guid', $guid, PDO::PARAM_STR);
+				$stmt->execute();
+				$numtrys = 0;
+				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+					$numtrys++;
+				}
+				if($numtrys >= 3){
+					$result = TRUE;
+				}
+			}
+		}
+		catch (PDOException $e) {
+			echo 'Exception: ' . $e->getMessage();
+		}
+		return $result;
+	}
 }	

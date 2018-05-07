@@ -11,6 +11,7 @@ $ac = new AdminController();
 $filter = null;
 $selectedTraining = null;
 $selectedSchool = null;
+$selectedYear = null;
 $nameFilter = false;
 $sort = null;
 if(!isset($_POST['submit']) ){
