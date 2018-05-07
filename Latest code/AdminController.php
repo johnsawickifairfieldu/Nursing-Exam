@@ -63,13 +63,13 @@ class AdminController {
 				if($status == 'Failed'){
 
 					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) < 0.30 order by $sorting ";
+					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) < 0.80 order by $sorting ";
 					$stmt = $this->conn->prepare($sql);
 
 				}else if($status == 'Passed'){
 
 					$sql = "select u.first_name , u.last_name , u.school_name , u.graduation_year , u.email , ex.exam_description , tr.training_description,tr.training_id ,ex.exam_id,
-					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) > 0.30 order by $sorting ";
+					res.ended , (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) grade from results res join users u on u.guid = res.guid join exams ex on ex.exam_id = res.exam_id join trainings tr on tr.training_id = ex.training_id where (res.total_questions_answered_correctly / nullif(res.total_available_questions,0)) > 0.80 order by $sorting ";
 					$stmt = $this->conn->prepare($sql);
 
 

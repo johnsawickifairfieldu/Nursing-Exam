@@ -564,20 +564,14 @@ if(isset($result)){
     foreach($result as $row){
       $gradeMark = $row['grade'];
       if($gradeMark == 1){
-        $grade = 'A+';
+        $grade = 'A';
         $status = 'Pass';
       }
-      else if($gradeMark >= 0.70 && $gradeMark <= 0.80){
-        $grade = 'A';
-         $status = 'Pass';
-      }else if($gradeMark >= 0.50 && $gradeMark <= 0.60){
+      else if($gradeMark >= 0.80 && $gradeMark <1){
         $grade = 'B';
          $status = 'Pass';
-      }else if($gradeMark >= 0.30 && $gradeMark <= 0.40){
-        $grade = 'B-';
-         $status = 'Pass';
-      }else if($gradeMark < 0.30){
-        $grade = 'C';
+      }else if($gradeMark < 0.80){
+        $grade = 'B';
          $status = 'Fail';
       }
 
