@@ -157,7 +157,9 @@
   <li>You must take a training course before you take tests.</li>
   <li>You have to take a test based on the training content.</li>
   <li>You don't have to take tests in order.</li>
-  <li>You will have 3 chances to retake each Exam if you fail once.</li>
+  <li>You will have 2 more chances to retake each Exam if you fail once.</li>
+  <li>After completion of each exam an email will be sent to your registered email with the details of your result.</li>
+  <li>After successful completion of exam you no longer see those modules in the portal.</li>
   <!-- <li>Faucibus porta lacus fringilla vel
   <ul>
       <li>Phasellus iaculis neque</li>

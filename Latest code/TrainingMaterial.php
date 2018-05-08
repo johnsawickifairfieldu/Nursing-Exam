@@ -156,7 +156,7 @@
      $result  = $tc->getTrainingModuleLinks( $trainingModule_id );  
      
      foreach($result as $row){
-      echo '<iframe width="900" height="500" src="'.$row['full_path_to_material'].'" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>'; 
+      echo '<iframe width="600" height="400" src="'.$row['full_path_to_material'].'" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>'; 
     }
 
     ?>
