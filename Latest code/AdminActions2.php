@@ -404,7 +404,7 @@ if (isset($_POST['submitActions']) ){
 
 
 													<div class="row justify-content-center">
-														<input type="text" class="form-control col-sm-4" name="editUrl"  placeholder="Enter new URL">
+														<input type="text" class="form-control col-sm-4" name="editUrl"  placeholder="Enter new URL" required>
 														<input type="hidden" class="form-control" name="editMaterial" value="<?php echo $editMaterial; ?>">
 													</div>
 												</div>

@@ -313,8 +313,8 @@ if(isset($_POST['submit'])){
 										</nav>
 										<div class="container mt-5 ">
 											<div class="row justify-content-center">
-												<input type="text" class="col-md-4 form-control m-3" name="training_description" placeholder="Enter training module name" autofocus>
-												<input type="text"  class="col-md-4 form-control m-3" name="url" placeholder="Enter the URL">
+												<input type="text" class="col-md-4 form-control m-3" name="training_description" placeholder="Enter training module name" required autofocus>
+												<input type="text"  class="col-md-4 form-control m-3" name="url" required placeholder="Enter the URL">
 												<input type="hidden" name="addMaterial" value="<?php echo $addMaterial; ?>">
 											</div></div>
 											<?php

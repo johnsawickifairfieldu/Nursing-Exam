@@ -164,6 +164,7 @@ if (isset($_POST['submit']) && isset($_POST['questions'])){
     <form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
       <?php if(isset($msg)){ ?><div role="alert"> <?php echo $msg; ?> </div><?php } ?> 
       <?php
+      $exam_id = null;
       if(!empty($_GET['exam_id'])){
        $exam_id = $_GET['exam_id'];
      }
