@@ -491,31 +491,6 @@ class AdminController {
 	}
 
 
-	function insertExam($exam_name,$training_id){
-
-		$exam_id = null;
-
-		try{
-
-			$sql = "insert into exams(exam_id,exam_description,training_id ) select max(exam_id)+1,:exam_name,:training_id from exams;";
-			$stmt = $this->conn->prepare($sql);
-			$stmt->bindValue(':exam_name', $exam_name, PDO::PARAM_STR);
-			$stmt->bindValue(':training_id', $training_id, PDO::PARAM_STR);	
-			$stmt->execute();
-			$count = $stmt->rowCount();
-
-				// Close connections
-			$stmt = null;
-			$connection = null;
-		}
-		catch (PDOException $e) {
-			echo 'Exception: ' . $e->getMessage();
-		}
-
-		return $count;
-
-	}
-
 
 
 

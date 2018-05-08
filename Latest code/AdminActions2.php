@@ -54,22 +54,9 @@ if (isset($_POST['submitActions']) ){
 				$isCorrect4 = 1;
 			}
 
-			if($exam_id != null){
-				$result = $ac->addQuesAns($exam_id,$question_text,$option1_text,$isCorrect1,$option2_text,$isCorrect2,$option3_text,$isCorrect3,$option4_text,$isCorrect4);
-			}else if($exam_name != null && $training_id != null ){
-				$result = $ac->insertExam($exam_name,$training_id);
-				if($result == 1){
-					$result = $ac->getExamId($exam_name);
-					foreach($result as $row){
-						$exam_id = $row['exam_id'];
-					}
-					if($exam_id != null){
-						$result = $ac->addQuesAns($exam_id,$question_text,$option1_text,$isCorrect1,$option2_text,$isCorrect2,$option3_text,$isCorrect3,$option4_text,$isCorrect4);
-					}
 
-				}
-			}
-			//echo "Added Question";
+				$result = $ac->addQuesAns($exam_id,$question_text,$option1_text,$isCorrect1,$option2_text,$isCorrect2,$option3_text,$isCorrect3,$option4_text,$isCorrect4);
+
 			$msg = "Added Question";
 			$url = "AdminPage.php?msg=$msg";
 			header("Location: ".$url);
